@@ -9,7 +9,7 @@ import Slider from '@/components/slider'
 const Home = () => {
   const { language } = useSelector((state: RootState) => state.global)
   return (
-    <main className='w-full mt-40 flex flex-col gap-40'>
+    <main className='w-full mt-40 flex flex-col gap-40 relative'>
       <section
         className={`w-full flex items-center justify-between ${
           language === 'geo' ? 'font-notoSans' : 'font-poppins'
