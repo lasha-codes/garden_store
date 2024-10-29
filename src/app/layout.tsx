@@ -1,5 +1,8 @@
+'use client'
 import Header from '@/components/header'
 import './globals.css'
+import { Provider } from 'react-redux'
+import { store } from '@/lib/store'
 
 export default function RootLayout({
   children,
@@ -9,7 +12,9 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className='py-6 px-12'>
-        <Header />
+        <Provider store={store}>
+          <Header />
+        </Provider>
         {children}
       </body>
     </html>
