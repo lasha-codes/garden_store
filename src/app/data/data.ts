@@ -1,3 +1,8 @@
+import plant from './assets/plant.png'
+import plant_stand from './assets/plant_stand.png'
+import outdoor_pot from './assets/outdoor_pot.png'
+import table_plant from './assets/table_plant.png'
+
 type NavigationType = {
   eng_title: string
   geo_title: string
@@ -69,3 +74,26 @@ export const mainData: mainDataType = {
     },
   ],
 }
+
+export const sliderData = [
+  {
+    image: plant_stand,
+    eng_title: 'Plant Stands',
+    geo_title: 'მცენარის საგდამები',
+  },
+  {
+    image: plant,
+    eng_title: 'Plant Families',
+    geo_title: 'მცენარის სახეობები',
+  },
+  {
+    image: outdoor_pot,
+    eng_title: 'Outdoor Plant Pot',
+    geo_title: 'უჯიშო მცენარეების დოქი',
+  },
+  {
+    image: table_plant,
+    eng_title: 'Table Plant',
+    geo_title: 'მაგიდის მცენარე',
+  },
+]
