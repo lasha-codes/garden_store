@@ -12,9 +12,8 @@ const globalSlice = createSlice({
   name: 'globalSlice',
   initialState: initialState,
   reducers: {
-    toggleLanguage: (state, { payload }) => {
-      const { language }: { language: 'geo' | 'eng' } = payload
-      if (language === 'eng') {
+    toggleLanguage: (state) => {
+      if (state.language === 'eng') {
         state.language = 'geo'
       } else {
         state.language = 'eng'

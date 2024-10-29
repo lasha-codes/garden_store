@@ -6,13 +6,13 @@ type NavigationType = {
 
 export const navigation: NavigationType[] = [
   {
-    eng_title: 'Explore',
-    geo_title: 'დათვალიერება',
-    path: '/explore',
+    eng_title: 'Home',
+    geo_title: 'მთავარი',
+    path: '/',
   },
   {
     eng_title: 'About',
-    geo_title: 'ჩვენს შესახებ',
+    geo_title: 'შესახებ',
     path: '/about',
   },
   {
@@ -31,3 +31,41 @@ export const navigation: NavigationType[] = [
     path: '/contact',
   },
 ]
+
+interface buttonsType {
+  eng_title: string
+  geo_title: string
+  path: string
+}
+
+interface mainDataType {
+  eng_line: string
+  geo_line: string
+  eng_title: string
+  geo_title: string
+  eng_description: string
+  geo_description: string
+  buttons: buttonsType[]
+}
+
+export const mainData: mainDataType = {
+  eng_line: 'Interior Gardening',
+  geo_line: 'ინტერირის მცენარეები',
+  eng_title: 'THE SHOP FOR THE URBAN GARDENS',
+  geo_title: 'მაღაზია ბაღის მცენარეებისთვის',
+  eng_description:
+    'There are many violations of passages of Lorem ipsum available. but the majority have suffered alteration',
+  geo_description: 'ქართული აღწერა რომელიც შეიცვლება გვერდის შესაბამისად',
+  buttons: [
+    {
+      eng_title: 'Explore Now',
+      geo_title: 'გადახედვა',
+      path: '/products',
+    },
+    {
+      eng_title: 'Learn More',
+      geo_title: 'გაიგეთ მეტი',
+      path: '/news',
+    },
+  ],
+}

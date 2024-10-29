@@ -14,8 +14,8 @@ export default function RootLayout({
       <body className='py-6 px-12'>
         <Provider store={store}>
           <Header />
+          {children}
         </Provider>
-        {children}
       </body>
     </html>
   )
