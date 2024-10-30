@@ -55,7 +55,7 @@ interface mainDataType {
 
 export const mainData: mainDataType = {
   eng_line: 'Interior Gardening',
-  geo_line: 'ინტერირის მცენარეები',
+  geo_line: 'ინტერიორის მცენარეები',
   eng_title: 'THE SHOP FOR THE URBAN GARDENS',
   geo_title: 'მაღაზია ბაღის მცენარეებისთვის',
   eng_description:

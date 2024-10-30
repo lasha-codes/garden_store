@@ -52,9 +52,7 @@ const Home = () => {
             })}
           </div>
         </div>
-        <div className='w-full flex justify-center'>
-          <Slider />
-        </div>
+        <Slider />
       </section>
     </main>
   )

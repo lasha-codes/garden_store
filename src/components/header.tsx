@@ -4,13 +4,13 @@ import { IoSearchOutline } from 'react-icons/io5'
 import { FiShoppingBag, FiUser } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/lib/store'
-import { toggleLanguage } from '@/lib/slices/global_slice'
+import { toggleLanguage, toggleMenu } from '@/lib/slices/global_slice'
 import { usePathname } from 'next/navigation'
 
 const Header = () => {
   const pathname = usePathname()
   const dispatch = useDispatch<AppDispatch>()
-  const { language } = useSelector((state: RootState) => state.global)
+  const { language, menuOpen } = useSelector((state: RootState) => state.global)
   return (
     <header className='w-full h-full flex items-center justify-between'>
       <Link href='/' className=''>
@@ -80,6 +80,66 @@ const Header = () => {
           <FiShoppingBag className='text-lg' />
           <FiUser className='text-xl' />
         </div>
+      </div>
+      <div className='relative hidden max-lg:block'>
+        <button
+          onClick={() => dispatch(toggleMenu())}
+          className={`flex flex-col items-center gap-[4px]`}
+        >
+          <div
+            className={`w-[17px] h-[2px] transition-all duration-300 bg-black rounded-full ${
+              menuOpen && 'rotate-[135deg] translate-y-1.5 filter h-[1px]'
+            }`}
+          />
+          <div
+            className={`w-[17px] h-[2px] bg-black rounded-full transition-all duration-300 ${
+              menuOpen && 'opacity-0'
+            }`}
+          />
+          <div
+            className={`w-[17px] h-[2px] bg-black transition-all duration-300 rounded-full ${
+              menuOpen && 'rotate-45 -translate-y-[5px] filter h-[1px]'
+            }`}
+          />
+        </button>
+        <nav
+          className={`absolute right-[0px] top-8 transition-all duration-300 ease-in-out bg-[#e2e1e1] p-4 rounded-[10px] z-[999] ${
+            menuOpen
+              ? 'rounded-tr-none opacity-100 pointer-events-auto translate-y-0'
+              : 'opacity-0 pointer-events-none translate-y-6'
+          }`}
+        >
+          {navigation.map((link, idx) => {
+            return (
+              <Link
+                key={idx}
+                href={link.path}
+                className={`font-notoSans ${
+                  pathname === link.path && 'text-main'
+                } hover:text-main transition-all duration-200 ease-linear`}
+              >
+                <span
+                  className={`${
+                    language === 'geo'
+                      ? 'opacity-100 pointer-events-auto block'
+                      : 'opacity-0 pointer-events-none absolute top-0'
+                  }`}
+                >
+                  {link.geo_title}
+                </span>
+                <span
+                  className={`${
+                    language === 'eng'
+                      ? 'opacity-100 pointer-events-auto block'
+                      : 'opacity-0 pointer-events-none absolute top-0'
+                  }`}
+                >
+                  {link.eng_title}
+                </span>
+              </Link>
+            )
+          })}
+        </nav>
       </div>
     </header>
   )

@@ -2,10 +2,12 @@ import { createSlice } from '@reduxjs/toolkit'
 
 type initialStateType = {
   language: 'geo' | 'eng'
+  menuOpen: boolean
 }
 
 const initialState: initialStateType = {
   language: 'geo',
+  menuOpen: false,
 }
 
 const globalSlice = createSlice({
@@ -19,9 +21,12 @@ const globalSlice = createSlice({
         state.language = 'eng'
       }
     },
+    toggleMenu: (state) => {
+      state.menuOpen = !state.menuOpen
+    },
   },
 })
 
 export default globalSlice.reducer
 
-export const { toggleLanguage } = globalSlice.actions
+export const { toggleLanguage, toggleMenu } = globalSlice.actions
