@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <main className='w-full mt-40 flex flex-col gap-40 relative'>
       <section
-        className={`w-full flex items-center justify-between ${
+        className={`w-full flex items-center max-md:flex-col max-md:items-start max-md:justify-center max-md:gap-10 justify-between ${
           language === 'geo' ? 'font-notoSans' : 'font-poppins'
         }`}
       >
