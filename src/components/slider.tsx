@@ -8,7 +8,7 @@ import 'swiper/css/navigation'
 
 const Slider = () => {
   return (
-    <div className='w-[500px]'>
+    <div className='w-[550px] max-lg:w-full'>
       <Swiper
         modules={[Navigation, Autoplay, EffectCoverflow]}
         effect='coverflow'
@@ -32,6 +32,7 @@ const Slider = () => {
                 className='object-cover'
                 height={500}
                 width={600}
+                priority
               />
             </SwiperSlide>
           )

@@ -18,7 +18,7 @@ const Header = () => {
           Ingarden
         </h1>
       </Link>
-      <nav className='flex items-center gap-5 relative'>
+      <nav className='flex items-center gap-5 relative max-lg:hidden'>
         {navigation.map((link, idx) => {
           return (
             <Link
