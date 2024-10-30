@@ -75,7 +75,7 @@ const Header = () => {
             ქარ
           </div>
         </button>
-        <div className='flex items-center gap-4'>
+        <div className='flex items-center gap-4 max-md:hidden'>
           <IoSearchOutline className='text-xl' />
           <FiShoppingBag className='text-lg' />
           <FiUser className='text-xl' />
@@ -98,7 +98,7 @@ const Header = () => {
           />
           <div
             className={`w-[17px] h-[2px] bg-black transition-all duration-300 rounded-full ${
-              menuOpen && 'rotate-45 -translate-y-[5px] filter h-[1px]'
+              menuOpen && 'rotate-45 -translate-y-[6px] filter h-[1px]'
             }`}
           />
         </button>
@@ -139,6 +139,11 @@ const Header = () => {
               </Link>
             )
           })}
+          <div className='flex items-center gap-4 md:hidden mt-5'>
+            <IoSearchOutline className='text-xl' />
+            <FiShoppingBag className='text-lg' />
+            <FiUser className='text-xl' />
+          </div>
         </nav>
       </div>
     </header>

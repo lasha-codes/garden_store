@@ -29,7 +29,7 @@ const Slider = () => {
               <Image
                 src={data.image}
                 alt='slider image'
-                className='object-cover'
+                className='object-contain min-h-[500px] max-h-[500px]'
                 height={500}
                 width={600}
                 priority
