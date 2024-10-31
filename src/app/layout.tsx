@@ -3,6 +3,10 @@ import Header from '@/components/header'
 import './globals.css'
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
+import axios from 'axios'
+
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_ENDPOINT
+axios.defaults.withCredentials = true
 
 export default function RootLayout({
   children,
