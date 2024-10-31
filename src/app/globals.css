@@ -6,7 +6,7 @@
 @tailwind utilities;
 
 body {
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .swiper-button-next::after,

@@ -5,11 +5,12 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@/lib/store'
 import Link from 'next/link'
 import Slider from '@/components/slider'
+import Categories from '@/components/categories'
 
 const Home = () => {
   const { language } = useSelector((state: RootState) => state.global)
   return (
-    <main className='w-full mt-20 max-md:mt-16 flex flex-col gap-40 relative'>
+    <main className='w-full mt-20 max-md:mt-16 flex flex-col gap-16 relative'>
       <section
         className={`w-full flex items-center max-lg:flex-col max-lg:items-start max-lg:justify-center max-lg:gap-10 justify-between ${
           language === 'geo' ? 'font-notoSans' : 'font-poppins'
@@ -54,6 +55,7 @@ const Home = () => {
         </div>
         <Slider />
       </section>
+      <Categories />
     </main>
   )
 }

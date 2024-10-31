@@ -18,13 +18,17 @@ const Header = () => {
           Ingarden
         </h1>
       </Link>
-      <nav className='flex items-center gap-5 relative max-lg:hidden'>
+      <nav
+        className={`${
+          language === 'geo' ? 'font-notoSans' : 'font-poppins'
+        } flex items-center gap-5 relative max-lg:hidden`}
+      >
         {navigation.map((link, idx) => {
           return (
             <Link
               key={idx}
               href={link.path}
-              className={`font-notoSans ${
+              className={`${
                 pathname === link.path && 'text-main'
               } hover:text-main transition-all duration-200 ease-linear`}
             >
@@ -103,7 +107,9 @@ const Header = () => {
           />
         </button>
         <nav
-          className={`absolute right-[0px] top-8 transition-all duration-300 ease-in-out bg-[#e2e1e1] p-4 rounded-[10px] z-[999] ${
+          className={`absolute ${
+            language === 'geo' ? 'font-notoSans' : 'font-poppins'
+          } right-[0px] top-8 transition-all duration-300 ease-in-out bg-[#e2e1e1] p-4 rounded-[10px] z-[999] ${
             menuOpen
               ? 'rounded-tr-none opacity-100 pointer-events-auto translate-y-0'
               : 'opacity-0 pointer-events-none translate-y-6'
@@ -114,7 +120,7 @@ const Header = () => {
               <Link
                 key={idx}
                 href={link.path}
-                className={`font-notoSans ${
+                className={`${
                   pathname === link.path && 'text-main'
                 } hover:text-main transition-all duration-200 ease-linear`}
               >
