@@ -8,24 +8,3 @@
 body {
   overflow-x: hidden;
 }
-
-.swiper-button-next::after,
-.swiper-button-prev::after {
-  color: #588535dc;
-  padding: 10px;
-  border-radius: 50%;
-  font-size: 1.5rem;
-}
-
-.swiper-button-next,
-.swiper-button-prev {
-  transform: scale(0.8);
-  opacity: 0.8 !important;
-  transition: all 0.3s !important;
-}
-
-.swiper-button-next:hover,
-.swiper-button-prev:hover {
-  transform: scale(0.9);
-  opacity: 1 !important;
-}

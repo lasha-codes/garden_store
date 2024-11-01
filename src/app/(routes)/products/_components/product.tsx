@@ -41,7 +41,7 @@ const Product = ({ product }: { product: ProductType }) => {
             </div>
           </button>
           <Link
-            href={`/product`}
+            href={`/products/${product.id}`}
             className='w-12 h-12 bg-white flex justify-center items-center text-primary drop-shadow-xl'
           >
             <BsEyeFill />
@@ -56,7 +56,7 @@ const Product = ({ product }: { product: ProductType }) => {
           22
         )}
       </div>
-      <Link href={`/product/}`}>
+      <Link href={`/products/${product.id}`}>
         <h2 className='font-medium mb-1'>
           {language === 'eng' ? product.eng_title : product.geo_title}
         </h2>

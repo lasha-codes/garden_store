@@ -7,6 +7,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 
 import 'swiper/css'
 import 'swiper/css/navigation'
+import './slider.css'
 
 const Slider = () => {
   return (
