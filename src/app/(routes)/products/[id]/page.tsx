@@ -5,20 +5,23 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Product as ProductType } from '@/types/globalTypes'
 import Image from 'next/image'
 import { Pagination, Navigation } from 'swiper/modules'
 import './product.css'
 import { RootState } from '@/lib/store'
 import { useSelector } from 'react-redux'
+import { SwiperRef } from 'swiper/react'
+import SlideImage from './_components/slideImage'
 
 const Product = () => {
   const params = useParams()
   const [product, setProduct] = useState<ProductType | null>(null)
   const { language } = useSelector((state: RootState) => state.global)
+  const [currentSlide, setCurrentSlide] = useState<number>(0)
 
-  console.log(product)
+  const swiperRef = useRef<SwiperRef | null>(null)
 
   useEffect(() => {
     const getProductById = async () => {
@@ -42,29 +45,46 @@ const Product = () => {
         language == 'geo' ? 'font-notoSans' : 'font-poppins'
       }`}
     >
-      <div className='w-full flex items-center justify-between gap-10'>
-        <div className='w-[700px] h-[300px] rounded-[10px] border overflow-hidden'>
-          <Swiper
-            slidesPerView={1}
-            pagination={{ clickable: true }}
-            navigation
-            modules={[Pagination, Navigation]}
-            className='w-full h-full'
-          >
-            {product?.images.map((src, idx) => (
-              <SwiperSlide key={idx} className='!h-[300px]'>
-                <div className='relative h-full w-full'>
-                  <Image
-                    src={src}
-                    priority
-                    fill
-                    className='object-contain'
-                    alt='product image'
-                  />
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+      <div className='w-full flex items-start justify-between gap-10'>
+        <div className='flex flex-col items-center gap-3'>
+          <div className='w-[500px] rounded-[10px] border flex flex-col items-center gap-2'>
+            <Swiper
+              onSlideChange={(swiper) => setCurrentSlide(swiper.activeIndex)}
+              ref={swiperRef}
+              slidesPerView={1}
+              pagination={{ clickable: true }}
+              navigation
+              modules={[Pagination, Navigation]}
+              className='w-full h-full'
+            >
+              {product?.images.map((src, idx) => (
+                <SwiperSlide key={idx} className='!h-[300px]'>
+                  <div className='relative h-full w-full'>
+                    <Image
+                      src={src}
+                      priority
+                      fill
+                      className='object-contain'
+                      alt='product image'
+                    />
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+          <div className='flex items-center gap-3'>
+            {product?.images.map((src, idx) => {
+              return (
+                <SlideImage
+                  key={idx}
+                  index={idx}
+                  src={src}
+                  swiper={swiperRef}
+                  currentSlide={currentSlide}
+                />
+              )
+            })}
+          </div>
         </div>
         <div className='flex flex-col items-start w-full h-[300px] justify-start'>
           <h2 className='text-xl font-medium border-b w-full pb-3'>
