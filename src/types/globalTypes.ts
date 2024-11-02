@@ -9,4 +9,9 @@ export type Product = {
   currency: 'dollar' | 'lari' | 'euro'
   color: string | null
   qty: number
+  size?: string
+  brand: string
+  model?: string
+  material?: string
+  weight?: string
 }

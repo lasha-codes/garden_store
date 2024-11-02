@@ -48,20 +48,20 @@ const Product = ({ product }: { product: ProductType }) => {
           </Link>
         </div>
       </div>
-      <div className='text-sm capitalize text-gray-500'>
+      <p className='text-sm capitalize text-gray-500'>
         {trimText(
           language === 'eng'
             ? product.eng_description
             : product.geo_description,
           22
         )}
-      </div>
+      </p>
       <Link href={`/products/${product.id}`}>
         <h2 className='font-medium mb-1'>
           {language === 'eng' ? product.eng_title : product.geo_title}
         </h2>
       </Link>
-      <div className='font-medium flex items-center gap-0.5'>
+      <div className='font-medium flex items-center gap-0.5 font-poppins'>
         <ReturnCurrency /> {product.price}
       </div>
     </div>

@@ -72,12 +72,73 @@ const Product = () => {
               (language === 'geo' ? product.geo_title : product.eng_title)}
           </h2>
           <div className='pb-3 w-full border-b'>
-            <p className='text-sm mt-3 max-w-[300px] text-gray-600'>
+            <p className='text-sm mt-3 max-w-[500px] text-gray-600'>
               {language === 'geo'
                 ? product?.geo_description
                 : product?.eng_description}
             </p>
           </div>
+          {(product?.brand ||
+            product?.model ||
+            product?.material ||
+            product?.size ||
+            product?.weight) && (
+            <div className='flex flex-col items-start gap-3 mt-3 w-full'>
+              <h3 className='border-b w-full pb-3'>
+                {language === 'eng' ? 'Specifications' : 'სპეციფიკაციები'}
+              </h3>
+              <div className='w-full flex flex-col items-start gap-3 border-b pb-3 pr-36'>
+                {product.brand && (
+                  <div className='flex items-center w-full justify-between'>
+                    <span className='text-sm text-gray-600'>
+                      {language === 'eng' ? 'brand' : 'ბრენდი'}
+                    </span>
+                    <span className='text-sm font-poppins'>
+                      {product.brand}
+                    </span>
+                  </div>
+                )}
+                {product.model && (
+                  <div className='flex items-center w-full justify-between'>
+                    <span className='text-sm text-gray-600'>
+                      {language === 'eng' ? 'model' : 'მოდელი'}
+                    </span>
+                    <span className='text-sm font-poppins'>
+                      {product.model}
+                    </span>
+                  </div>
+                )}
+                {product.weight && (
+                  <div className='flex items-center w-full justify-between'>
+                    <span className='text-sm text-gray-600'>
+                      {language === 'eng' ? 'weight' : 'მასა'}
+                    </span>
+                    <span className='text-sm font-poppins'>
+                      {product.weight}
+                    </span>
+                  </div>
+                )}
+                {product.size && (
+                  <div className='flex items-center w-full justify-between'>
+                    <span className='text-sm text-gray-600'>
+                      {language === 'eng' ? 'size' : 'ზომა'}
+                    </span>
+                    <span className='text-sm font-poppins'>{product.size}</span>
+                  </div>
+                )}
+                {product.material && (
+                  <div className='flex items-center w-full justify-between'>
+                    <span className='text-sm text-gray-600'>
+                      {language === 'eng' ? 'material' : 'მასალა'}
+                    </span>
+                    <span className='text-sm font-poppins'>
+                      {product.material}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </main>
