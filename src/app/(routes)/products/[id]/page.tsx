@@ -14,6 +14,7 @@ import { RootState } from '@/lib/store'
 import { useSelector } from 'react-redux'
 import { SwiperRef } from 'swiper/react'
 import SlideImage from './_components/slideImage'
+import Purchase from './_components/purchase'
 
 const Product = () => {
   const params = useParams()
@@ -45,9 +46,9 @@ const Product = () => {
         language == 'geo' ? 'font-notoSans' : 'font-poppins'
       }`}
     >
-      <div className='w-full flex items-start justify-between gap-10'>
-        <div className='flex flex-col items-center gap-3'>
-          <div className='w-[500px] rounded-[10px] border flex flex-col items-center gap-2'>
+      <div className='w-full flex items-start justify-between gap-10 max-lg:flex-col'>
+        <div className='flex flex-col items-center gap-3 w-full'>
+          <div className='w-[500px] h-[300px] max-lg:w-full rounded-[10px] border flex flex-col items-center gap-2'>
             <Swiper
               onSlideChange={(swiper) => setCurrentSlide(swiper.activeIndex)}
               ref={swiperRef}
@@ -58,7 +59,7 @@ const Product = () => {
               className='w-full h-full'
             >
               {product?.images.map((src, idx) => (
-                <SwiperSlide key={idx} className='!h-[300px]'>
+                <SwiperSlide key={idx}>
                   <div className='relative h-full w-full'>
                     <Image
                       src={src}
@@ -86,79 +87,84 @@ const Product = () => {
             })}
           </div>
         </div>
-        <div className='flex flex-col items-start w-full h-[300px] justify-start'>
-          <h2 className='text-xl font-medium border-b w-full pb-3'>
-            {product &&
-              (language === 'geo' ? product.geo_title : product.eng_title)}
-          </h2>
-          <div className='pb-3 w-full border-b'>
-            <p className='text-sm mt-3 max-w-[500px] text-gray-600'>
-              {language === 'geo'
-                ? product?.geo_description
-                : product?.eng_description}
-            </p>
-          </div>
-          {(product?.brand ||
-            product?.model ||
-            product?.material ||
-            product?.size ||
-            product?.weight) && (
-            <div className='flex flex-col items-start gap-3 mt-3 w-full'>
-              <h3 className='border-b w-full pb-3'>
-                {language === 'eng' ? 'Specifications' : 'სპეციფიკაციები'}
-              </h3>
-              <div className='w-full flex flex-col items-start gap-3 border-b pb-3 pr-36'>
-                {product.brand && (
-                  <div className='flex items-center w-full justify-between'>
-                    <span className='text-sm text-gray-600'>
-                      {language === 'eng' ? 'brand' : 'ბრენდი'}
-                    </span>
-                    <span className='text-sm font-poppins'>
-                      {product.brand}
-                    </span>
-                  </div>
-                )}
-                {product.model && (
-                  <div className='flex items-center w-full justify-between'>
-                    <span className='text-sm text-gray-600'>
-                      {language === 'eng' ? 'model' : 'მოდელი'}
-                    </span>
-                    <span className='text-sm font-poppins'>
-                      {product.model}
-                    </span>
-                  </div>
-                )}
-                {product.weight && (
-                  <div className='flex items-center w-full justify-between'>
-                    <span className='text-sm text-gray-600'>
-                      {language === 'eng' ? 'weight' : 'მასა'}
-                    </span>
-                    <span className='text-sm font-poppins'>
-                      {product.weight}
-                    </span>
-                  </div>
-                )}
-                {product.size && (
-                  <div className='flex items-center w-full justify-between'>
-                    <span className='text-sm text-gray-600'>
-                      {language === 'eng' ? 'size' : 'ზომა'}
-                    </span>
-                    <span className='text-sm font-poppins'>{product.size}</span>
-                  </div>
-                )}
-                {product.material && (
-                  <div className='flex items-center w-full justify-between'>
-                    <span className='text-sm text-gray-600'>
-                      {language === 'eng' ? 'material' : 'მასალა'}
-                    </span>
-                    <span className='text-sm font-poppins'>
-                      {product.material}
-                    </span>
-                  </div>
-                )}
-              </div>
+        <div className='flex items-start w-full justify-between gap-7 max-xl:flex-col'>
+          <div className='flex flex-col items-start w-full justify-start'>
+            <h2 className='text-xl font-medium border-b w-full pb-3'>
+              {product &&
+                (language === 'geo' ? product.geo_title : product.eng_title)}
+            </h2>
+            <div className='pb-3 w-full border-b'>
+              <p className='text-sm mt-3 max-w-[500px] text-gray-600'>
+                {language === 'geo'
+                  ? product?.geo_description
+                  : product?.eng_description}
+              </p>
             </div>
-          )}
+            {(product?.brand ||
+              product?.model ||
+              product?.material ||
+              product?.size ||
+              product?.weight) && (
+              <div className='flex flex-col items-start gap-3 mt-3 w-full'>
+                <h3 className='border-b w-full pb-3'>
+                  {language === 'eng' ? 'Specifications' : 'სპეციფიკაციები'}
+                </h3>
+                <div className='w-full flex flex-col items-start gap-3 border-b pb-3 pr-36 max-2xl:pr-14 max-xl:pr-10 max-lg:pr-0'>
+                  {product.brand && (
+                    <div className='flex items-center w-full justify-between'>
+                      <span className='text-sm text-gray-600'>
+                        {language === 'eng' ? 'brand' : 'ბრენდი'}
+                      </span>
+                      <span className='text-sm font-poppins'>
+                        {product.brand}
+                      </span>
+                    </div>
+                  )}
+                  {product.model && (
+                    <div className='flex items-center w-full justify-between'>
+                      <span className='text-sm text-gray-600'>
+                        {language === 'eng' ? 'model' : 'მოდელი'}
+                      </span>
+                      <span className='text-sm font-poppins'>
+                        {product.model}
+                      </span>
+                    </div>
+                  )}
+                  {product.weight && (
+                    <div className='flex items-center w-full justify-between'>
+                      <span className='text-sm text-gray-600'>
+                        {language === 'eng' ? 'weight' : 'მასა'}
+                      </span>
+                      <span className='text-sm font-poppins'>
+                        {product.weight}
+                      </span>
+                    </div>
+                  )}
+                  {product.size && (
+                    <div className='flex items-center w-full justify-between'>
+                      <span className='text-sm text-gray-600'>
+                        {language === 'eng' ? 'size' : 'ზომა'}
+                      </span>
+                      <span className='text-sm font-poppins'>
+                        {product.size}
+                      </span>
+                    </div>
+                  )}
+                  {product.material && (
+                    <div className='flex items-center w-full justify-between'>
+                      <span className='text-sm text-gray-600'>
+                        {language === 'eng' ? 'material' : 'მასალა'}
+                      </span>
+                      <span className='text-sm font-poppins'>
+                        {product.material}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+          <Purchase product={product as ProductType} language={language} />
         </div>
       </div>
     </main>

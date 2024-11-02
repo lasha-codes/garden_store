@@ -28,7 +28,7 @@ const SlideImage = ({
         priority
         fill
         alt='product image'
-        className='group-hover:scale-110 transition-all duration-200 ease-linear'
+        className='group-hover:scale-110 transition-all duration-200 ease-linear object-cover'
       />
     </div>
   )
