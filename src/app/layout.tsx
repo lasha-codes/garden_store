@@ -1,9 +1,11 @@
 'use client'
 import Header from '@/components/header'
-import './globals.css'
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import axios from 'axios'
+import Cart from '@/components/cart'
+
+import './globals.css'
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_ENDPOINT
 axios.defaults.withCredentials = true
@@ -15,10 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className='py-6 px-12'>
+      <body className='py-6 px-12 relative'>
         <Provider store={store}>
           <Header />
           {children}
+          <Cart />
         </Provider>
       </body>
     </html>

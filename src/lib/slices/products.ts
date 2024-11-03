@@ -17,16 +17,24 @@ export const fetchProducts = createAsyncThunk('products/retrieve', async () => {
 
 type initialStateType = {
   products: Product[]
+  cartOpen: boolean
+  cart: { id: string; qty: number }[]
 }
 
 const initialState: initialStateType = {
   products: [],
+  cartOpen: false,
+  cart: [],
 }
 
 const productsSlice = createSlice({
   name: 'products',
   initialState,
-  reducers: {},
+  reducers: {
+    toggleCart: (state, { payload }: { payload: boolean }) => {
+      state.cartOpen = payload
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.fulfilled, (state, action) => {
@@ -47,3 +55,5 @@ const productsSlice = createSlice({
 })
 
 export default productsSlice.reducer
+
+export const { toggleCart } = productsSlice.actions
