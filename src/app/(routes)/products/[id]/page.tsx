@@ -10,16 +10,19 @@ import { Product as ProductType } from '@/types/globalTypes'
 import Image from 'next/image'
 import { Pagination, Navigation } from 'swiper/modules'
 import './product.css'
-import { RootState } from '@/lib/store'
-import { useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '@/lib/store'
+import { useDispatch, useSelector } from 'react-redux'
 import { SwiperRef } from 'swiper/react'
 import SlideImage from './_components/slideImage'
 import Purchase from './_components/purchase'
+import { toggleCart } from '@/lib/slices/products'
 
 const Product = () => {
+  const dispatch = useDispatch<AppDispatch>()
   const params = useParams()
   const [product, setProduct] = useState<ProductType | null>(null)
   const { language } = useSelector((state: RootState) => state.global)
+  const { cartOpen } = useSelector((state: RootState) => state.products)
   const [currentSlide, setCurrentSlide] = useState<number>(0)
 
   const swiperRef = useRef<SwiperRef | null>(null)
@@ -46,6 +49,14 @@ const Product = () => {
         language == 'geo' ? 'font-notoSans' : 'font-poppins'
       }`}
     >
+      <div
+        onClick={() => dispatch(toggleCart(false))}
+        className={`fixed w-screen h-screen top-0 left-0 z-[500] bg-black/50 transition-all duration-200 ease-linear ${
+          cartOpen
+            ? 'opacity-100 pointer-events-auto'
+            : 'opacity-0 pointer-events-none'
+        }`}
+      />
       <div className='w-full flex items-start justify-between gap-10 max-lg:flex-col'>
         <div className='flex flex-col items-center gap-3 w-full'>
           <div className='w-[500px] h-[300px] max-lg:w-full rounded-[10px] border flex flex-col items-center gap-2'>

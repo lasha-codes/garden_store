@@ -81,7 +81,7 @@ const Purchase = ({
           <FaCcStripe className='text-3xl' />
           <div className='h-[20px] w-[1px] bg-white' />
           <span className='text-sm'>
-            {language === 'geo' ? 'გადახდა' : 'Purchase'}
+            {language === 'geo' ? 'შეძენა' : 'Purchase'}
           </span>
         </button>
       </div>

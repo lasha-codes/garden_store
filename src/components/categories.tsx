@@ -40,7 +40,7 @@ const Categories = () => {
                   ? category.geo_description
                   : category.eng_description}
               </p>
-              <button className='text-[15px] max-md:text-sm text-[#156d15] border-b font-medium border-[#156d15] pb-[1px]'>
+              <button className='text-[15px] max-md:text-sm text-[#156d15] border-b font-medium border-[#156d15] pb-[1px] font-poppins'>
                 SHOP NOW
               </button>
             </div>

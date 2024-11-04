@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/lib/store'
 import { toggleLanguage, toggleMenu } from '@/lib/slices/global_slice'
 import { usePathname } from 'next/navigation'
+import { toggleCart } from '@/lib/slices/products'
 
 const Header = () => {
   const pathname = usePathname()
@@ -80,9 +81,12 @@ const Header = () => {
           </div>
         </button>
         <div className='flex items-center gap-4 max-md:hidden'>
-          <IoSearchOutline className='text-xl' />
-          <FiShoppingBag className='text-lg' />
-          <FiUser className='text-xl' />
+          <IoSearchOutline className='text-xl cursor-pointer' />
+          <FiShoppingBag
+            onClick={() => dispatch(toggleCart(true))}
+            className='text-lg cursor-pointer'
+          />
+          <FiUser className='text-xl cursor-pointer' />
         </div>
       </div>
       <div className='relative hidden max-lg:block'>

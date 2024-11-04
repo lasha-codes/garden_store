@@ -2,15 +2,29 @@
 
 import { mainData } from './data/data'
 import { useSelector } from 'react-redux'
-import { RootState } from '@/lib/store'
+import { AppDispatch, RootState } from '@/lib/store'
 import Link from 'next/link'
 import Slider from '@/components/slider'
 import Categories from '@/components/categories'
+import Cart from '@/components/cart'
+import { useDispatch } from 'react-redux'
+import { toggleCart } from '@/lib/slices/products'
 
 const Home = () => {
+  const dispatch = useDispatch<AppDispatch>()
   const { language } = useSelector((state: RootState) => state.global)
+  const { cartOpen } = useSelector((state: RootState) => state.products)
   return (
     <main className='w-full mt-20 max-md:mt-16 flex flex-col gap-16 relative'>
+      <div
+        onClick={() => dispatch(toggleCart(false))}
+        className={`fixed w-screen h-screen top-0 left-0 z-[500] bg-black/50 transition-all duration-200 ease-linear ${
+          cartOpen
+            ? 'opacity-100 pointer-events-auto'
+            : 'opacity-0 pointer-events-none'
+        }`}
+      />
+
       <section
         className={`w-full flex items-center max-lg:flex-col max-lg:items-start max-lg:justify-center max-lg:gap-10 justify-between ${
           language === 'geo' ? 'font-notoSans' : 'font-poppins'
@@ -39,6 +53,7 @@ const Home = () => {
             {mainData.buttons.map((obj, idx) => {
               return (
                 <Link
+                  onClick={() => {}}
                   href={obj.path}
                   key={idx}
                   className={`px-6 py-2.5 ${

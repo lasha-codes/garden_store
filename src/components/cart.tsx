@@ -1,29 +1,35 @@
 'use client'
-import { RootState } from '@/lib/store'
-import { useSelector } from 'react-redux'
+import { RootState, AppDispatch } from '@/lib/store'
+import { useSelector, useDispatch } from 'react-redux'
 import { IoCloseOutline } from 'react-icons/io5'
 import { TbCurrencyLari } from 'react-icons/tb'
+import { toggleCart } from '@/lib/slices/products'
 
 const Cart = () => {
+  const dispatch = useDispatch<AppDispatch>()
   const { language } = useSelector((state: RootState) => state.global)
+  const { cartOpen } = useSelector((state: RootState) => state.products)
   return (
     <div
-      className={`h-full w-[340px] bg-white fixed right-0 top-0 shadow-xl flex flex-col items-start z-[999] ${
-        language === 'geo' ? 'font-notoSans' : 'font-poppins'
-      }`}
+      className={`h-full w-[340px] transition-all duration-500 bg-white fixed right-0 top-0 shadow-xl flex flex-col items-start z-[999] ${
+        cartOpen ? 'translate-x-0' : 'translate-x-[400px]'
+      } ${language === 'geo' ? 'font-notoSans' : 'font-poppins'}`}
     >
       <div className='w-full flex items-center justify-between p-4 border-b'>
         <h3 className='text-lg font-semibold'>
           {language === 'geo' ? 'კალათი' : 'Cart'}
         </h3>
-        <div className='flex items-center gap-1 cursor-pointer hover:text-gray-500 transition-all duration-300 ease-linear'>
+        <button
+          onClick={() => dispatch(toggleCart(false))}
+          className='flex items-center gap-1 cursor-pointer hover:text-gray-500 transition-all duration-300 ease-linear'
+        >
           <IoCloseOutline className='text-[22px] -translate-y-[1.5px]' />
           <span className='text-sm font-semibold'>
             {language === 'geo' ? 'დახურვა' : 'close'}
           </span>
-        </div>
+        </button>
       </div>
-      <div className='overflow-y-scroll w-full px-4 h-[77%]'></div>
+      <div className='overflow-y-auto w-full px-4 h-[77%]'></div>
       <div className='flex flex-col items-start w-full p-4 gap-3'>
         <div className='w-full flex items-center justify-between'>
           <span className='font-semibold text-[19px]'>
