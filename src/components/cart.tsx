@@ -4,14 +4,18 @@ import { useSelector, useDispatch } from 'react-redux'
 import { IoCloseOutline } from 'react-icons/io5'
 import { TbCurrencyLari } from 'react-icons/tb'
 import { toggleCart } from '@/lib/slices/products'
+import Product from './product'
 
 const Cart = () => {
   const dispatch = useDispatch<AppDispatch>()
   const { language } = useSelector((state: RootState) => state.global)
-  const { cartOpen } = useSelector((state: RootState) => state.products)
+  const { cartOpen, retrievedCart } = useSelector(
+    (state: RootState) => state.products
+  )
+
   return (
     <div
-      className={`h-full w-[340px] transition-all duration-500 bg-white fixed right-0 top-0 shadow-xl flex flex-col items-start z-[999] ${
+      className={`h-full w-[350px] transition-all duration-500 bg-white fixed right-0 top-0 shadow-xl flex flex-col items-start z-[999] ${
         cartOpen ? 'translate-x-0' : 'translate-x-[400px]'
       } ${language === 'geo' ? 'font-notoSans' : 'font-poppins'}`}
     >
@@ -29,7 +33,11 @@ const Cart = () => {
           </span>
         </button>
       </div>
-      <div className='overflow-y-auto w-full px-4 h-[77%]'></div>
+      <div className='overflow-y-auto w-full h-[77%]'>
+        {retrievedCart.map((product, idx) => {
+          return <Product key={idx} product={product} />
+        })}
+      </div>
       <div className='flex flex-col items-start w-full p-4 gap-3'>
         <div className='w-full flex items-center justify-between'>
           <span className='font-semibold text-[19px]'>

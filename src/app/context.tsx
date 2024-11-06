@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import axios from 'axios'
-import { initializeCart } from '@/lib/slices/products'
+import { assignCart, initializeCart } from '@/lib/slices/products'
 
 const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [isClient, setIsClient] = useState<boolean>(false)
@@ -17,6 +17,8 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
         localStorage.getItem('cart')! || '[]'
       )
 
+      dispatch(assignCart(products))
+
       const filteredProducts = products.filter((product) => {
         return product.qty && product.id
       })
@@ -26,7 +28,6 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
       })
 
       if (data.cart) {
-        console.log(data.cart)
         dispatch(initializeCart({ cart: data.cart }))
       } else {
         dispatch(initializeCart({ cart: [] }))

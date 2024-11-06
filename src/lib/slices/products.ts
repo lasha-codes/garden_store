@@ -15,16 +15,22 @@ export const fetchProducts = createAsyncThunk('products/retrieve', async () => {
   }
 })
 
+interface CartProduct extends Product {
+  qty: number
+}
+
 type initialStateType = {
   products: Product[]
   cartOpen: boolean
   cart: { id: string; qty: number }[]
+  retrievedCart: CartProduct[]
 }
 
 const initialState: initialStateType = {
   products: [],
   cartOpen: false,
   cart: [],
+  retrievedCart: [],
 }
 
 const productsSlice = createSlice({
@@ -48,9 +54,12 @@ const productsSlice = createSlice({
 
       localStorage.setItem('cart', JSON.stringify(state.cart))
     },
+    assignCart: (state, { payload }) => {
+      state.cart = payload
+    },
     initializeCart: (state, { payload }) => {
       const { cart } = payload
-      state.cart = cart
+      state.retrievedCart = cart
     },
   },
   extraReducers: (builder) => {
@@ -73,4 +82,5 @@ const productsSlice = createSlice({
 
 export default productsSlice.reducer
 
-export const { toggleCart, addToCart, initializeCart } = productsSlice.actions
+export const { toggleCart, addToCart, initializeCart, assignCart } =
+  productsSlice.actions
