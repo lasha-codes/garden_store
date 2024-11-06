@@ -6,7 +6,6 @@ import { AppDispatch, RootState } from '@/lib/store'
 import Link from 'next/link'
 import Slider from '@/components/slider'
 import Categories from '@/components/categories'
-import Cart from '@/components/cart'
 import { useDispatch } from 'react-redux'
 import { toggleCart } from '@/lib/slices/products'
 
@@ -14,6 +13,7 @@ const Home = () => {
   const dispatch = useDispatch<AppDispatch>()
   const { language } = useSelector((state: RootState) => state.global)
   const { cartOpen } = useSelector((state: RootState) => state.products)
+
   return (
     <main className='w-full mt-20 max-md:mt-16 flex flex-col gap-16 relative'>
       <div

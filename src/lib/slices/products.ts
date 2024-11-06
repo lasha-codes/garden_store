@@ -34,6 +34,20 @@ const productsSlice = createSlice({
     toggleCart: (state, { payload }: { payload: boolean }) => {
       state.cartOpen = payload
     },
+    addToCart: (state, { payload }) => {
+      const { productId, qty }: { productId: string; qty: number } = payload
+      const alreadyInCart = state.cart.find((product) => {
+        return product.id === productId
+      })
+      if (alreadyInCart) {
+        alreadyInCart.qty += qty
+      } else {
+        state.cart = [...state.cart, { id: productId, qty: qty }]
+      }
+      state.cart = JSON.parse(JSON.stringify(state.cart))
+
+      localStorage.setItem('cart', JSON.stringify(state.cart))
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -56,4 +70,4 @@ const productsSlice = createSlice({
 
 export default productsSlice.reducer
 
-export const { toggleCart } = productsSlice.actions
+export const { toggleCart, addToCart } = productsSlice.actions

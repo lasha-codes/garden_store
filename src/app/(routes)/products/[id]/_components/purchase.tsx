@@ -1,9 +1,14 @@
+'use client'
+
 import { Product } from '@/types/globalTypes'
 import { CgDollar } from 'react-icons/cg'
 import { MdEuroSymbol } from 'react-icons/md'
 import { TbCurrencyLari } from 'react-icons/tb'
 import { useState } from 'react'
 import { FaCcStripe } from 'react-icons/fa'
+import { addToCart } from '@/lib/slices/products'
+import { AppDispatch } from '@/lib/store'
+import { useDispatch } from 'react-redux'
 
 const Purchase = ({
   product,
@@ -12,6 +17,7 @@ const Purchase = ({
   product: Product
   language: 'geo' | 'eng'
 }) => {
+  const dispatch = useDispatch<AppDispatch>()
   const [qty, setQty] = useState<string>('1')
   const ReturnCurrency = () => {
     if (product) {
@@ -73,7 +79,12 @@ const Purchase = ({
               +
             </button>
           </div>
-          <button className='text-sm bg-main hover:bg-main/90 transition-all duration-200 ease-linear h-[40px] text-white px-3'>
+          <button
+            onClick={() => {
+              dispatch(addToCart({ productId: product.id, qty: Number(qty) }))
+            }}
+            className='text-sm bg-main hover:bg-main/90 transition-all duration-200 ease-linear h-[40px] text-white px-3'
+          >
             {language === 'geo' ? 'კალათაში დამატება' : 'Add to cart'}
           </button>
         </div>
