@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import axios from 'axios'
 import Cart from '@/components/cart'
+import ContextProvider from './context'
 
 import './globals.css'
 
@@ -19,9 +20,11 @@ export default function RootLayout({
     <html lang='en'>
       <body className='py-6 px-12 relative'>
         <Provider store={store}>
-          <Header />
-          {children}
-          <Cart />
+          <ContextProvider>
+            <Header />
+            {children}
+            <Cart />
+          </ContextProvider>
         </Provider>
       </body>
     </html>

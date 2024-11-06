@@ -48,6 +48,10 @@ const productsSlice = createSlice({
 
       localStorage.setItem('cart', JSON.stringify(state.cart))
     },
+    initializeCart: (state, { payload }) => {
+      const { cart } = payload
+      state.cart = cart
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -55,7 +59,6 @@ const productsSlice = createSlice({
         const { payload } = action
         if (Array.isArray(payload)) {
           state.products = payload
-          console.log(state.products)
         }
       })
       .addCase(fetchProducts.rejected, (state, action) => {
@@ -70,4 +73,4 @@ const productsSlice = createSlice({
 
 export default productsSlice.reducer
 
-export const { toggleCart, addToCart } = productsSlice.actions
+export const { toggleCart, addToCart, initializeCart } = productsSlice.actions
