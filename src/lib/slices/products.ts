@@ -61,6 +61,18 @@ const productsSlice = createSlice({
       const { cart } = payload
       state.retrievedCart = cart
     },
+    removeFromCart: (state, { payload }) => {
+      const { removeId }: { removeId: string } = payload
+      const filteredArray = state.cart.filter((product) => {
+        return product.id !== removeId
+      })
+      state.cart = filteredArray
+      state.retrievedCart = state.retrievedCart.filter((product) => {
+        return product.id !== removeId
+      })
+
+      localStorage.setItem('cart', JSON.stringify(state.cart))
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -82,5 +94,10 @@ const productsSlice = createSlice({
 
 export default productsSlice.reducer
 
-export const { toggleCart, addToCart, initializeCart, assignCart } =
-  productsSlice.actions
+export const {
+  toggleCart,
+  addToCart,
+  initializeCart,
+  removeFromCart,
+  assignCart,
+} = productsSlice.actions

@@ -7,12 +7,16 @@ import { trimText } from '@/utils/utils'
 import { CgDollar } from 'react-icons/cg'
 import { TbCurrencyLari } from 'react-icons/tb'
 import { MdEuroSymbol } from 'react-icons/md'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '@/lib/store'
+import { removeFromCart } from '@/lib/slices/products'
 
 interface CartProduct extends ProductType {
   qty: number
 }
 
 const Product = ({ product }: { product: CartProduct }) => {
+  const dispatch = useDispatch<AppDispatch>()
   const ReturnCurrency = () => {
     if (product) {
       if (product.currency === 'dollar') {
@@ -56,7 +60,7 @@ const Product = ({ product }: { product: CartProduct }) => {
           <span className='text-[#858585]'>{product.qty}</span>
           <span className='text-[#858585]'>x</span>
           <div className='flex items-center gap-1 text-main font-semibold'>
-            <span>{product.price}</span>
+            <span>{product.price.toFixed(2)}</span>
             <div className='-translate-y-0.5'>
               <ReturnCurrency />
             </div>
@@ -64,7 +68,10 @@ const Product = ({ product }: { product: CartProduct }) => {
         </div>
       </div>
       <div className='absolute w-full h-full pointer-events-none bg-gray-400/20 left-0 top-0 z-[40] opacity-0 group-hover:opacity-100 transition-all duration-200 ease-linear'></div>
-      <button className='absolute top-2.5 right-4 p-0.5 rounded-full bg-transparent hover:bg-white hover:border-gray-300/40 border border-transparent z-[50] transition-all duration-200 ease-linear'>
+      <button
+        onClick={() => dispatch(removeFromCart({ removeId: product.id }))}
+        className='absolute top-2.5 right-4 p-0.5 rounded-full bg-transparent hover:bg-white hover:border-gray-300/40 border border-transparent z-[50] transition-all duration-200 ease-linear'
+      >
         <IoIosClose className='text-[20px] text-[#858585]' />
       </button>
     </div>
