@@ -10,6 +10,7 @@ import { MdEuroSymbol } from 'react-icons/md'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/lib/store'
 import { removeFromCart } from '@/lib/slices/products'
+import Link from 'next/link'
 
 interface CartProduct extends ProductType {
   qty: number
@@ -44,7 +45,10 @@ const Product = ({ product }: { product: CartProduct }) => {
           className='object-cover'
         />
       </div>
-      <div className='flex flex-col w-full items-start'>
+      <Link
+        href={`/products/${product.id}`}
+        className='flex flex-col w-full items-start'
+      >
         <h3 className='font-semibold text-[15px]'>
           {language === 'geo' ? product.geo_title : product.eng_title}
         </h3>
@@ -66,7 +70,7 @@ const Product = ({ product }: { product: CartProduct }) => {
             </div>
           </div>
         </div>
-      </div>
+      </Link>
       <div className='absolute w-full h-full pointer-events-none bg-gray-400/20 left-0 top-0 z-[40] opacity-0 group-hover:opacity-100 transition-all duration-200 ease-linear'></div>
       <button
         onClick={() => dispatch(removeFromCart({ removeId: product.id }))}

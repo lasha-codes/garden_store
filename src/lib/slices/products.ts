@@ -47,11 +47,17 @@ const productsSlice = createSlice({
       })
       if (alreadyInCart) {
         alreadyInCart.qty += qty
+        const alreadyRetrieved = state.retrievedCart.find((p) => {
+          return p.id === productId
+        })
+        if (alreadyRetrieved) {
+          alreadyRetrieved.qty += qty
+        }
       } else {
         state.cart = [...state.cart, { id: productId, qty: qty }]
       }
       state.cart = JSON.parse(JSON.stringify(state.cart))
-
+      state.cartOpen = true
       localStorage.setItem('cart', JSON.stringify(state.cart))
     },
     assignCart: (state, { payload }) => {
