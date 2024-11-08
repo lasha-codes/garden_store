@@ -61,14 +61,15 @@ const Purchase = ({
       dispatch(toggleCart(true))
     }
   }
+
   return (
     <div className='border rounded-xl flex flex-col items-start p-3.5 gap-3 min-w-[310px] max-w-[310px] max-xl:min-w-[60%] max-xl:max-w-[60%] max-md:min-w-full max-md:max-w-full'>
-      <div className='flex items-center gap-0.5 text-lg font-poppins font-medium'>
+      <div className='flex items-center gap-0.5 text-lg font-poppins font-medium w-full'>
         <span>{product?.price}</span>
         <ReturnCurrency />
       </div>
       <div className='flex flex-col items-start gap-3 w-full'>
-        <div className='flex items-center gap-2'>
+        <div className='flex items-center gap-2 w-full'>
           <div className='w-[80px] h-[40px] flex items-center border font-poppins text-gray-500'>
             <button
               onClick={decrementQty}
@@ -95,9 +96,20 @@ const Purchase = ({
           </div>
           <button
             onClick={addToCartFunction}
-            className='text-sm bg-main hover:bg-main/90 transition-all duration-200 ease-linear h-[40px] text-white px-3'
+            className='text-sm bg-main hover:bg-main/90 transition-all duration-200 ease-linear h-[40px] text-white px-3 w-full flex items-center justify-center'
           >
-            {language === 'geo' ? 'კალათაში დამატება' : 'Add to cart'}
+            {cartLoading === 'pending' ? (
+              <div className='lds-ring'>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            ) : language === 'geo' ? (
+              'კალათაში დამატება'
+            ) : (
+              'Add to cart'
+            )}
           </button>
         </div>
         <button className='flex items-center gap-3 w-full bg-[#6472FE] px-3 h-[45px] text-white rounded-[6px] hover:bg-[#6472FE]/90 transition-all duration-200 ease-linear'>
