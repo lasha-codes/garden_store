@@ -6,12 +6,10 @@ import { MdEuroSymbol } from 'react-icons/md'
 import { TbCurrencyLari } from 'react-icons/tb'
 import { useState } from 'react'
 import { FaCcStripe } from 'react-icons/fa'
-import { addToCart } from '@/lib/slices/products'
+import { addToCart, toggleCart } from '@/lib/slices/products'
 import { AppDispatch, RootState } from '@/lib/store'
 import { useDispatch, useSelector } from 'react-redux'
-import { initializeCart } from '@/lib/slices/products'
-import axios from 'axios'
-
+import { retrieveCartData } from '@/lib/slices/products'
 const Purchase = ({
   product,
   language,
@@ -20,10 +18,10 @@ const Purchase = ({
   language: 'geo' | 'eng'
 }) => {
   const dispatch = useDispatch<AppDispatch>()
-  const { cart, retrievedCart } = useSelector(
+  const [qty, setQty] = useState<string>('1')
+  const { cartLoading, retrievedCart } = useSelector(
     (state: RootState) => state.products
   )
-  const [qty, setQty] = useState<string>('1')
   const ReturnCurrency = () => {
     if (product) {
       if (product.currency === 'dollar') {
@@ -52,6 +50,17 @@ const Purchase = ({
     }
   }
 
+  const addToCartFunction = () => {
+    dispatch(addToCart({ productId: product.id, qty: Number(qty) }))
+    const alreadyRetrieved = retrievedCart.find((p) => {
+      return product.id === p.id
+    })
+    if (!alreadyRetrieved) {
+      dispatch(retrieveCartData())
+    } else {
+      dispatch(toggleCart(true))
+    }
+  }
   return (
     <div className='border rounded-xl flex flex-col items-start p-3.5 gap-3 min-w-[310px] max-w-[310px] max-xl:min-w-[60%] max-xl:max-w-[60%] max-md:min-w-full max-md:max-w-full'>
       <div className='flex items-center gap-0.5 text-lg font-poppins font-medium'>
@@ -85,9 +94,7 @@ const Purchase = ({
             </button>
           </div>
           <button
-            onClick={async () => {
-              dispatch(addToCart({ productId: product.id, qty: Number(qty) }))
-            }}
+            onClick={addToCartFunction}
             className='text-sm bg-main hover:bg-main/90 transition-all duration-200 ease-linear h-[40px] text-white px-3'
           >
             {language === 'geo' ? 'კალათაში დამატება' : 'Add to cart'}

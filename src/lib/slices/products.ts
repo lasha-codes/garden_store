@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { Product } from '@/types/globalTypes'
 import axios from 'axios'
+import { RootState } from '../store'
 
 export const fetchProducts = createAsyncThunk('products/retrieve', async () => {
   try {
@@ -15,6 +16,24 @@ export const fetchProducts = createAsyncThunk('products/retrieve', async () => {
   }
 })
 
+export const retrieveCartData = createAsyncThunk(
+  'cart/retrieve',
+  async (_, { getState }) => {
+    try {
+      const { data } = await axios.post('/products/cart/get', {
+        products: JSON.parse(localStorage.getItem('cart') || '[]'),
+      })
+      if (data.cart) {
+        return data.cart
+      } else {
+        return []
+      }
+    } catch (err) {
+      console.error('Error retrieving cart', err)
+    }
+  }
+)
+
 interface CartProduct extends Product {
   qty: number
 }
@@ -24,6 +43,7 @@ type initialStateType = {
   cartOpen: boolean
   cart: { id: string; qty: number }[]
   retrievedCart: CartProduct[]
+  cartLoading: 'pending' | 'rejected' | 'fulfilled'
 }
 
 const initialState: initialStateType = {
@@ -31,6 +51,7 @@ const initialState: initialStateType = {
   cartOpen: false,
   cart: [],
   retrievedCart: [],
+  cartLoading: 'fulfilled',
 }
 
 const productsSlice = createSlice({
@@ -47,7 +68,7 @@ const productsSlice = createSlice({
       })
       if (alreadyInCart) {
         alreadyInCart.qty += qty
-        const alreadyRetrieved = state.retrievedCart.find((p) => {
+        const alreadyRetrieved = state.retrievedCart?.find((p) => {
           return p.id === productId
         })
         if (alreadyRetrieved) {
@@ -57,7 +78,6 @@ const productsSlice = createSlice({
         state.cart = [...state.cart, { id: productId, qty: qty }]
       }
       state.cart = JSON.parse(JSON.stringify(state.cart))
-      state.cartOpen = true
       localStorage.setItem('cart', JSON.stringify(state.cart))
     },
     assignCart: (state, { payload }) => {
@@ -94,6 +114,19 @@ const productsSlice = createSlice({
         if (payload) {
           console.error(payload)
         }
+      })
+      .addCase(retrieveCartData.fulfilled, (state, action) => {
+        const { payload } = action
+        state.retrievedCart = payload
+        state.cartLoading = 'fulfilled'
+        state.cartOpen = true
+      })
+      .addCase(retrieveCartData.pending, (state) => {
+        state.cartLoading = 'pending'
+      })
+      .addCase(retrieveCartData.rejected, (state) => {
+        state.cartLoading = 'rejected'
+        state.cart = []
       })
   },
 })

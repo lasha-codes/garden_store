@@ -34,9 +34,10 @@ const Cart = () => {
         </button>
       </div>
       <div className='overflow-y-auto w-full h-[77%]'>
-        {retrievedCart.map((product, idx) => {
-          return <Product key={idx} product={product} />
-        })}
+        {retrievedCart?.length > 0 &&
+          retrievedCart.map((product, idx) => {
+            return <Product key={idx} product={product} />
+          })}
       </div>
       <div className='flex flex-col items-start w-full p-4 gap-3'>
         <div className='w-full flex items-center justify-between'>
