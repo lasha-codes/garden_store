@@ -17,6 +17,7 @@ const Purchase = ({
   product: Product
   language: 'geo' | 'eng'
 }) => {
+  console.log('bd')
   const dispatch = useDispatch<AppDispatch>()
   const [qty, setQty] = useState<string>('1')
   const { cartLoading, retrievedCart } = useSelector(
