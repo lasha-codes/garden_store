@@ -63,9 +63,12 @@ const Cart = () => {
               >
                 {language === 'geo' ? 'კალათის გასუფთავება' : 'Clear cart'}
               </button>
-              <button className='h-[42px] text-center text-sm flex items-center justify-center w-full bg-main font-semibold hover:bg-[#476e2b] transition-all duration-200 ease-linear text-white'>
+              <a
+                href='/checkout'
+                className='h-[42px] text-center text-sm flex items-center justify-center w-full bg-main font-semibold hover:bg-[#476e2b] transition-all duration-200 ease-linear text-white'
+              >
                 {language === 'geo' ? 'შეძენა' : 'Purchase'}
-              </button>
+              </a>
             </div>
           </div>
         </>
@@ -77,14 +80,14 @@ const Cart = () => {
               ? 'No products in the cart.'
               : 'კალათა ცარიელია.'}
           </span>
-          <Link
+          <a
             href='/products'
             className='bg-main text-white text-[13px] font-semibold px-5 py-2 hover:bg-main/90 transition-all duration-200 ease-linear'
           >
             {language === 'eng'
               ? 'Redirect to the shop'
               : 'მაღაზიაში დაბრუნება'}
-          </Link>
+          </a>
         </div>
       )}
     </div>
