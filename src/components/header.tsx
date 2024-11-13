@@ -159,7 +159,17 @@ const Header = () => {
           })}
           <div className='flex items-center gap-4 md:hidden mt-5'>
             <IoSearchOutline className='text-xl' />
-            <FiShoppingBag className='text-lg' />
+            <button
+              onClick={() => dispatch(toggleCart(true))}
+              className='text-lg cursor-pointer relative'
+            >
+              <FiShoppingBag />
+              {totalCount > 0 && (
+                <div className='absolute bg-main text-[9px] flex items-center -top-1 -right-1 justify-center text-white font-notoSans w-[15px] h-[15px] rounded-full'>
+                  <span>{totalCount}</span>
+                </div>
+              )}
+            </button>
             <FiUser className='text-xl' />
           </div>
         </nav>

@@ -18,8 +18,10 @@ const Cart = () => {
 
   return (
     <div
-      className={`h-full w-[350px] transition-all duration-500 bg-white fixed right-0 top-0 shadow-xl flex flex-col items-start z-[999] ${
-        cartOpen ? 'translate-x-0' : 'translate-x-[400px]'
+      className={`h-full w-[350px] transition-all duration-500 max-md:duration-700 max-md:w-full bg-white fixed right-0 top-0 shadow-xl flex flex-col items-start z-[999] ${
+        cartOpen
+          ? 'translate-x-0'
+          : 'translate-x-[400px] max-md:translate-x-[700px]'
       } ${language === 'geo' ? 'font-notoSans' : 'font-poppins'}`}
     >
       <div className='w-full flex items-center justify-between p-4 border-b'>
