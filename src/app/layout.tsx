@@ -5,6 +5,7 @@ import { store } from '@/lib/store'
 import axios from 'axios'
 import Cart from '@/components/cart'
 import ContextProvider from './context'
+import { Toaster } from 'sonner'
 
 import './globals.css'
 
@@ -25,6 +26,7 @@ export default function RootLayout({
             {children}
             <Cart />
           </ContextProvider>
+          <Toaster position='top-right' className='font-notoSans' richColors />
         </Provider>
       </body>
     </html>

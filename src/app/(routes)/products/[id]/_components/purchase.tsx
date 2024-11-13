@@ -51,7 +51,13 @@ const Purchase = ({
   }
 
   const addToCartFunction = () => {
-    dispatch(addToCart({ productId: product.id, qty: Number(qty) }))
+    dispatch(
+      addToCart({
+        productId: product.id,
+        qty: Number(qty),
+        maxQty: product.qty,
+      })
+    )
     const alreadyRetrieved = retrievedCart.find((p) => {
       return product.id === p.id
     })
@@ -79,8 +85,14 @@ const Purchase = ({
             </button>
             <input
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                if (!e.target.value.trim()) {
+                  return setQty('1')
+                }
                 if (!Number.isInteger(Number(e.target.value))) {
                   return
+                }
+                if (Number(e.target.value) > product.qty) {
+                  return setQty(product.qty.toString())
                 }
                 setQty(e.target.value)
               }}

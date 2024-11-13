@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { Product } from '@/types/globalTypes'
 import axios from 'axios'
-import { RootState } from '../store'
+import { toast } from 'sonner'
 
 export const fetchProducts = createAsyncThunk('products/retrieve', async () => {
   try {
@@ -16,23 +16,20 @@ export const fetchProducts = createAsyncThunk('products/retrieve', async () => {
   }
 })
 
-export const retrieveCartData = createAsyncThunk(
-  'cart/retrieve',
-  async (_, { getState }) => {
-    try {
-      const { data } = await axios.post('/products/cart/get', {
-        products: JSON.parse(localStorage.getItem('cart') || '[]'),
-      })
-      if (data.cart) {
-        return data.cart
-      } else {
-        return []
-      }
-    } catch (err) {
-      console.error('Error retrieving cart', err)
+export const retrieveCartData = createAsyncThunk('cart/retrieve', async () => {
+  try {
+    const { data } = await axios.post('/products/cart/get', {
+      products: JSON.parse(localStorage.getItem('cart') || '[]'),
+    })
+    if (data.cart) {
+      return data.cart
+    } else {
+      return []
     }
+  } catch (err) {
+    console.error('Error retrieving cart', err)
   }
-)
+})
 
 interface CartProduct extends Product {
   qty: number
@@ -62,17 +59,25 @@ const productsSlice = createSlice({
       state.cartOpen = payload
     },
     addToCart: (state, { payload }) => {
-      const { productId, qty }: { productId: string; qty: number } = payload
+      const {
+        productId,
+        qty,
+        maxQty,
+      }: { productId: string; qty: number; maxQty: number } = payload
       const alreadyInCart = state.cart.find((product) => {
         return product.id === productId
       })
       if (alreadyInCart) {
-        alreadyInCart.qty += qty
-        const alreadyRetrieved = state.retrievedCart?.find((p) => {
-          return p.id === productId
-        })
-        if (alreadyRetrieved) {
-          alreadyRetrieved.qty += qty
+        if (alreadyInCart.qty + qty > maxQty) {
+          toast.error('პროდუქტის მარაგი შევსებულია.')
+        } else {
+          alreadyInCart.qty += qty
+          const alreadyRetrieved = state.retrievedCart?.find((p) => {
+            return p.id === productId
+          })
+          if (alreadyRetrieved) {
+            alreadyRetrieved.qty += qty
+          }
         }
       } else {
         state.cart = [...state.cart, { id: productId, qty: qty }]
