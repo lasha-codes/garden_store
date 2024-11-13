@@ -3,14 +3,20 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { BsPlus, BsEyeFill } from 'react-icons/bs'
 import { useSelector } from 'react-redux'
-import { RootState } from '@/lib/store'
+import { AppDispatch, RootState } from '@/lib/store'
 import { CgDollar } from 'react-icons/cg'
 import { TbCurrencyLari } from 'react-icons/tb'
 import { MdEuroSymbol } from 'react-icons/md'
 import { trimText } from '@/utils/utils'
+import { useDispatch } from 'react-redux'
+import { addToCart, retrieveCartData, toggleCart } from '@/lib/slices/products'
 
 const Product = ({ product }: { product: ProductType }) => {
   const { language } = useSelector((state: RootState) => state.global)
+  const { retrievedCart, cartLoading } = useSelector(
+    (state: RootState) => state.products
+  )
+  const dispatch = useDispatch<AppDispatch>()
   const ReturnCurrency = () => {
     if (product.currency === 'dollar') {
       return <CgDollar className='text-xl' />
@@ -36,8 +42,36 @@ const Product = ({ product }: { product: ProductType }) => {
         </div>
         <div className='absolute top-4 -right-11 group-hover:right-3 p-2 flex flex-col items-center justify-center gap-y-2 opacity-0 group-hover:opacity-100 transition-all duration-300'>
           <button>
-            <div className='flex justify-center items-center text-white w-12 h-12 bg-main'>
-              <BsPlus className='text-3xl' />
+            <div
+              onClick={() => {
+                dispatch(
+                  addToCart({
+                    productId: product.id,
+                    qty: 1,
+                    maxQty: product.qty,
+                  })
+                )
+                const alreadyRetrieved = retrievedCart.find((p) => {
+                  return product.id === p.id
+                })
+                if (!alreadyRetrieved) {
+                  dispatch(retrieveCartData())
+                } else {
+                  dispatch(toggleCart(true))
+                }
+              }}
+              className='flex justify-center items-center text-white w-12 h-12 bg-main'
+            >
+              {cartLoading == 'pending' ? (
+                <div className='lds-ring'>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              ) : (
+                <BsPlus className='text-3xl' />
+              )}
             </div>
           </button>
           <Link
