@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { Product } from '@/types/globalTypes'
 import axios from 'axios'
 import { toast } from 'sonner'
+import { RootState } from '../store'
+import { createSelector } from 'reselect'
 
 export const fetchProducts = createAsyncThunk('products/retrieve', async () => {
   try {
@@ -104,6 +106,12 @@ const productsSlice = createSlice({
 
       localStorage.setItem('cart', JSON.stringify(state.cart))
     },
+    clearCart: (state) => {
+      state.cart = []
+      state.retrievedCart = []
+      localStorage.setItem('cart', '[]')
+      toast.success('კალათა გასუფთავებულია.')
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -136,6 +144,27 @@ const productsSlice = createSlice({
   },
 })
 
+const selectCart = (state: RootState) => state.products.cart
+const selectRetrievedCart = (state: RootState) => state.products.retrievedCart
+
+export const selectCartTotals = createSelector(
+  [selectCart, selectRetrievedCart],
+  (cart, retrievedCart) => {
+    let totalCount = 0
+    let totalPrice = 0
+
+    cart.forEach((item) => {
+      const product = retrievedCart.find((p) => p.id === item.id)
+      if (product) {
+        totalCount += item.qty
+        totalPrice += product.price * item.qty
+      }
+    })
+
+    return { totalCount, totalPrice }
+  }
+)
+
 export default productsSlice.reducer
 
 export const {
@@ -144,4 +173,5 @@ export const {
   initializeCart,
   removeFromCart,
   assignCart,
+  clearCart,
 } = productsSlice.actions

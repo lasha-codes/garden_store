@@ -6,12 +6,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/lib/store'
 import { toggleLanguage, toggleMenu } from '@/lib/slices/global_slice'
 import { usePathname } from 'next/navigation'
-import { toggleCart } from '@/lib/slices/products'
+import { selectCartTotals, toggleCart } from '@/lib/slices/products'
 
 const Header = () => {
   const pathname = usePathname()
   const dispatch = useDispatch<AppDispatch>()
   const { language, menuOpen } = useSelector((state: RootState) => state.global)
+  const { totalCount } = useSelector(selectCartTotals)
   return (
     <header className='w-full h-full flex items-center justify-between'>
       <Link href='/' className=''>
@@ -82,10 +83,17 @@ const Header = () => {
         </button>
         <div className='flex items-center gap-4 max-md:hidden'>
           <IoSearchOutline className='text-xl cursor-pointer' />
-          <FiShoppingBag
+          <button
             onClick={() => dispatch(toggleCart(true))}
-            className='text-lg cursor-pointer'
-          />
+            className='text-lg cursor-pointer relative'
+          >
+            <FiShoppingBag />
+            {totalCount > 0 && (
+              <div className='absolute bg-main text-[9px] flex items-center -top-1 -right-1 justify-center text-white font-notoSans w-[15px] h-[15px] rounded-full'>
+                <span>{totalCount}</span>
+              </div>
+            )}
+          </button>
           <FiUser className='text-xl cursor-pointer' />
         </div>
       </div>
