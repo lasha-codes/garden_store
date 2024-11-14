@@ -12,6 +12,9 @@ import { useState } from 'react'
 import tbc_logo from './icons/tbc-logo.svg'
 import { FaStripe } from 'react-icons/fa6'
 import Image from 'next/image'
+import { loadStripe } from '@stripe/stripe-js'
+import axios from 'axios'
+import { toast } from 'sonner'
 
 const Checkout = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -33,6 +36,37 @@ const Checkout = () => {
   useEffect(() => {
     dispatch(retrieveCartData())
   }, [])
+
+  const [paymentLoading, setPaymentLoading] = useState<boolean>(false)
+  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_KEY!)
+
+  const createStripeCheckoutSession = async () => {
+    setPaymentLoading(true)
+
+    try {
+      const { data } = await axios.post('/stripe/create/payment/intent', {
+        products: retrievedCart,
+      })
+
+      const sessionId = data.sessionId
+      const stripe = await stripePromise
+      if (stripe) {
+        const { error } = await stripe.redirectToCheckout({
+          sessionId: sessionId,
+        })
+
+        if (error) {
+          console.error('Stripe Checkout Error:', error.message)
+          alert('There was an error with the checkout. Please try again.')
+        }
+      }
+    } catch (err: any) {
+      console.error('Error creating checkout session:', err.message)
+      toast.error('დაფიქსირდა ხარვეზი გადახდის დროს, გთხოვთ ცადეთ თავიდან.')
+    } finally {
+      setPaymentLoading(false)
+    }
+  }
 
   return (
     <main className='bg-white flex items-start gap-4 mt-16 font-notoSans'>
@@ -392,8 +426,28 @@ const Checkout = () => {
           თქვენი პერსონალური მონაცემები გამოიყენება შეკვეთების გასაფორმებლად,
           საიტთან მუშაობის გასამარტივებლად და სხვა მიზნებისათვის,
         </p>
-        <button className='w-full py-3 bg-main hover:bg-main/90 transition-all duration-200 ease-linear text-white font-semibold text-[15px]'>
-          Place order
+        {paymentType === 'ონლაინ გადახდა' && (
+          <p className='text-sm mb-1 text-red-600'>
+            ონლაინ გადახდის დროს არაა ინფორმაცისს შევსება სავალდებულო *
+          </p>
+        )}
+        <button
+          disabled={paymentLoading}
+          onClick={() => {
+            if (paymentType === 'ონლაინ გადახდა') {
+              createStripeCheckoutSession()
+            }
+          }}
+          className='w-full py-3 bg-main hover:bg-main/90 h-[50px] flex items-center justify-center transition-all duration-200 ease-linear text-white font-semibold text-[15px]'
+        >
+          {paymentLoading ? (
+            <div className='flex items-center gap-3'>
+              Processing
+              <div className='loader -translate-y-0.5'></div>
+            </div>
+          ) : (
+            'Place order'
+          )}
         </button>
       </div>
     </main>
