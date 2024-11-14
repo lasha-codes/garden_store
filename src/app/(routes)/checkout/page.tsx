@@ -1,12 +1,32 @@
 'use client'
 
-import { toggleCart } from '@/lib/slices/products'
+import { selectCartTotals, toggleCart } from '@/lib/slices/products'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState, AppDispatch } from '@/lib/store'
+import { retrieveCartData } from '@/lib/slices/products'
+import { useEffect } from 'react'
+import { IoIosClose } from 'react-icons/io'
+import { TbCurrencyLari } from 'react-icons/tb'
+import Link from 'next/link'
+import { useState } from 'react'
 
 const Checkout = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const { cartOpen } = useSelector((state: RootState) => state.products)
+  const { cartOpen, retrievedCart } = useSelector(
+    (state: RootState) => state.products
+  )
+  const { totalPrice } = useSelector(selectCartTotals)
+  const [delivery, setDelivery] = useState<
+    'თვითგატანა' | 'მიწოდება თბილისში' | 'მიწოდება რეგიონში'
+  >('თვითგატანა')
+  const [deliveryPrice, setDeliveryPrice] = useState<number>(0)
+
+  useEffect(() => {
+    dispatch(retrieveCartData())
+  }, [])
+
+  console.log(retrievedCart)
+
   return (
     <main className='bg-white flex items-start gap-4 mt-16 font-notoSans'>
       <div
@@ -18,7 +38,7 @@ const Checkout = () => {
         }`}
       />
       <div className='w-full flex flex-col gap-5'>
-        <h2 className='font-notoSans font-semibold text-2xl'>
+        <h2 className='font-notoSans font-semibold text-[22px]'>
           BILLING DETAILS
         </h2>
         <form className='flex flex-col items-start gap-5 w-full'>
@@ -147,7 +167,122 @@ const Checkout = () => {
           </div>
         </form>
       </div>
-      <div className='w-full h-[50px] bg-black'></div>
+      <div className='w-full bg-[#F7F7F7] p-5 flex flex-col gap-3 items-center'>
+        <h2 className='text-[22px] font-semibold'>YOUR ORDER</h2>
+        <div className='w-full bg-white flex flex-col p-5'>
+          <div className='w-full flex items-center justify-between border-b-2 pb-3 border-[#E4E4E4]'>
+            <h3 className='font-semibold text-[15px]'>PRODUCT</h3>
+            <h3 className='font-semibold text-[15px]'>SUBTOTAL</h3>
+          </div>
+          {retrievedCart.map((product, idx) => {
+            return (
+              <div
+                key={idx}
+                className='flex items-center justify-between border-b border-[#E4E4E4]'
+              >
+                <div className='flex items-center gap-2'>
+                  <Link
+                    href={`/products/${product.id}`}
+                    className='text-[#777777] text-[15px] py-3'
+                  >
+                    {product.geo_title}
+                  </Link>
+                  <IoIosClose className='text-[#707070] text-[17px]' />
+                  <span className='text-sm font-semibold text-[#777777]'>
+                    {product.qty}
+                  </span>
+                </div>
+                <div className='flex items-start gap-1'>
+                  <span className='text-sm text-[#777777]'>
+                    {(product.price * product.qty).toFixed(1)}
+                  </span>
+                  <TbCurrencyLari className='text-[#777777]' />
+                </div>
+              </div>
+            )
+          })}
+          <div className='w-full flex items-center justify-between border-b border-[#E4E4E4] py-3'>
+            <span className='text-sm font-semibold'>Subtotal</span>
+            <div className='flex items-center gap-1.5 text-main'>
+              <span className='font-semibold text-sm'>
+                {(totalPrice + deliveryPrice).toFixed(2)}
+              </span>
+              <TbCurrencyLari />
+            </div>
+          </div>
+          <div className='w-full flex items-center justify-between py-3 border-b border-[#E4E4E4]'>
+            <span className='text-sm font-semibold'>Shipping</span>
+            <div className='flex flex-col items-end gap-2'>
+              <button
+                onClick={() => {
+                  setDelivery('თვითგატანა')
+                  setDeliveryPrice(0)
+                }}
+                className='flex items-center gap-2'
+              >
+                <span className='text-sm translate-y-[1px]'>თვითგატანა</span>
+                <div
+                  className={`w-[13px] h-[13px] rounded-full p-[1px] border border-[#616161] flex items-center justify-center`}
+                >
+                  <div
+                    className={`w-full h-full rounded-full transition-all ease-linear ${
+                      delivery === 'თვითგატანა' && 'bg-main'
+                    }`}
+                  ></div>
+                </div>
+              </button>
+              <button
+                onClick={() => {
+                  setDelivery('მიწოდება თბილისში')
+                  setDeliveryPrice(10)
+                }}
+                className='flex items-center gap-2'
+              >
+                <span className='text-sm translate-y-[1px]'>
+                  მიწოდება თბილისში:
+                </span>
+                <div className='flex items-center gap-1.5 text-main'>
+                  <span className='text-sm font-semibold'>10.00</span>
+                  <TbCurrencyLari />
+                </div>
+                <div
+                  className={`w-[13px] h-[13px] rounded-full p-[1px] border border-[#616161] flex items-center justify-center`}
+                >
+                  <div
+                    className={`w-full h-full rounded-full transition-all ease-linear ${
+                      delivery === 'მიწოდება თბილისში' && 'bg-main'
+                    }`}
+                  ></div>
+                </div>
+              </button>
+              <button
+                onClick={() => {
+                  setDelivery('მიწოდება რეგიონში')
+                  setDeliveryPrice(20)
+                }}
+                className='flex items-center gap-2'
+              >
+                <span className='text-sm translate-y-[1px]'>
+                  მიწოდება რეგიონში:
+                </span>
+                <div className='flex items-center gap-1.5 text-main'>
+                  <span className='text-sm font-semibold'>20.00</span>
+                  <TbCurrencyLari />
+                </div>
+                <div
+                  className={`w-[13px] h-[13px] rounded-full p-[1px] border border-[#616161] flex items-center justify-center`}
+                >
+                  <div
+                    className={`w-full h-full rounded-full transition-all ease-linear ${
+                      delivery === 'მიწოდება რეგიონში' && 'bg-main'
+                    }`}
+                  ></div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
   )
 }

@@ -84,6 +84,7 @@ const productsSlice = createSlice({
       } else {
         state.cart = [...state.cart, { id: productId, qty: qty }]
       }
+      state.cartOpen = true
       state.cart = JSON.parse(JSON.stringify(state.cart))
       localStorage.setItem('cart', JSON.stringify(state.cart))
     },
@@ -132,7 +133,6 @@ const productsSlice = createSlice({
         const { payload } = action
         state.retrievedCart = payload
         state.cartLoading = 'fulfilled'
-        state.cartOpen = true
       })
       .addCase(retrieveCartData.pending, (state) => {
         state.cartLoading = 'pending'
