@@ -154,7 +154,7 @@ export const selectCartTotals = createSelector(
     let totalPrice = 0
 
     cart.forEach((item) => {
-      const product = retrievedCart.find((p) => p.id === item.id)
+      const product = retrievedCart?.find((p) => p.id === item.id)
       if (product) {
         totalCount += item.qty
         totalPrice += product.price * item.qty

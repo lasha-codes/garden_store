@@ -9,6 +9,9 @@ import { IoIosClose } from 'react-icons/io'
 import { TbCurrencyLari } from 'react-icons/tb'
 import Link from 'next/link'
 import { useState } from 'react'
+import tbc_logo from './icons/tbc-logo.svg'
+import { FaStripe } from 'react-icons/fa6'
+import Image from 'next/image'
 
 const Checkout = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -20,12 +23,16 @@ const Checkout = () => {
     'თვითგატანა' | 'მიწოდება თბილისში' | 'მიწოდება რეგიონში'
   >('თვითგატანა')
   const [deliveryPrice, setDeliveryPrice] = useState<number>(0)
+  const [paymentType, setPaymentType] = useState<
+    | 'საბანკო გადარიცხვა'
+    | 'გადახდა ნაღდი ფულით შეკვეთის მიღებისას'
+    | 'თიბისი ბანკის ონლაინ განვადება'
+    | 'ონლაინ გადახდა'
+  >('საბანკო გადარიცხვა')
 
   useEffect(() => {
     dispatch(retrieveCartData())
   }, [])
-
-  console.log(retrievedCart)
 
   return (
     <main className='bg-white flex items-start gap-4 mt-16 font-notoSans'>
@@ -194,7 +201,7 @@ const Checkout = () => {
                 </div>
                 <div className='flex items-start gap-1'>
                   <span className='text-sm text-[#777777]'>
-                    {(product.price * product.qty).toFixed(1)}
+                    {(product.price * product.qty).toFixed(2)}
                   </span>
                   <TbCurrencyLari className='text-[#777777]' />
                 </div>
@@ -205,7 +212,7 @@ const Checkout = () => {
             <span className='text-sm font-semibold'>Subtotal</span>
             <div className='flex items-center gap-1.5 text-main'>
               <span className='font-semibold text-sm'>
-                {(totalPrice + deliveryPrice).toFixed(2)}
+                {totalPrice.toFixed(2)}
               </span>
               <TbCurrencyLari />
             </div>
@@ -222,11 +229,13 @@ const Checkout = () => {
               >
                 <span className='text-sm translate-y-[1px]'>თვითგატანა</span>
                 <div
-                  className={`w-[13px] h-[13px] rounded-full p-[1px] border border-[#616161] flex items-center justify-center`}
+                  className={`w-[13px] h-[13px] ${
+                    delivery === 'თვითგატანა' && 'border-[#005CC8]'
+                  } rounded-full p-[2px] border border-[#616161] flex items-center justify-center`}
                 >
                   <div
                     className={`w-full h-full rounded-full transition-all ease-linear ${
-                      delivery === 'თვითგატანა' && 'bg-main'
+                      delivery === 'თვითგატანა' && 'bg-[#005CC8]'
                     }`}
                   ></div>
                 </div>
@@ -246,11 +255,13 @@ const Checkout = () => {
                   <TbCurrencyLari />
                 </div>
                 <div
-                  className={`w-[13px] h-[13px] rounded-full p-[1px] border border-[#616161] flex items-center justify-center`}
+                  className={`w-[13px] h-[13px] rounded-full p-[2px] border border-[#616161] flex items-center justify-center ${
+                    delivery === 'მიწოდება თბილისში' && 'border-[#005CC8]'
+                  }`}
                 >
                   <div
                     className={`w-full h-full rounded-full transition-all ease-linear ${
-                      delivery === 'მიწოდება თბილისში' && 'bg-main'
+                      delivery === 'მიწოდება თბილისში' && 'bg-[#005CC8]'
                     }`}
                   ></div>
                 </div>
@@ -270,18 +281,120 @@ const Checkout = () => {
                   <TbCurrencyLari />
                 </div>
                 <div
-                  className={`w-[13px] h-[13px] rounded-full p-[1px] border border-[#616161] flex items-center justify-center`}
+                  className={`w-[13px] h-[13px] rounded-full p-[2px] border border-[#616161] flex items-center justify-center ${
+                    delivery === 'მიწოდება რეგიონში' && 'border-[#005CC8]'
+                  }`}
                 >
                   <div
                     className={`w-full h-full rounded-full transition-all ease-linear ${
-                      delivery === 'მიწოდება რეგიონში' && 'bg-main'
+                      delivery === 'მიწოდება რეგიონში' && 'bg-[#005CC8]'
                     }`}
                   ></div>
                 </div>
               </button>
             </div>
           </div>
+          <div className='w-full flex items-center justify-between pt-4'>
+            <h3 className='text-xl font-semibold'>Total</h3>
+            <div className='flex items-start gap-2 font-semibold text-main'>
+              <h3 className='text-xl'>
+                {(totalPrice + deliveryPrice).toFixed(2)}
+              </h3>
+              <TbCurrencyLari className='text-2xl' />
+            </div>
+          </div>
         </div>
+        <div className='w-full flex flex-col gap-4 items-start mt-3'>
+          <button
+            onClick={() => setPaymentType('საბანკო გადარიცხვა')}
+            className='flex items-center gap-2'
+          >
+            <div
+              className={`w-[13px] h-[13px] rounded-full p-[2px] border border-[#616161] flex items-center justify-center ${
+                paymentType === 'საბანკო გადარიცხვა' && 'border-[#005CC8]'
+              }`}
+            >
+              <div
+                className={`w-full h-full rounded-full transition-all ease-linear ${
+                  paymentType === 'საბანკო გადარიცხვა' && 'bg-[#005CC8]'
+                }`}
+              ></div>
+            </div>
+            <span className='text-sm translate-y-[1px]'>
+              საბანკო გადარიცხვა
+            </span>
+          </button>
+          <button
+            onClick={() =>
+              setPaymentType('გადახდა ნაღდი ფულით შეკვეთის მიღებისას')
+            }
+            className='flex items-center gap-2'
+          >
+            <div
+              className={`w-[13px] h-[13px] rounded-full p-[2px] border border-[#616161] flex items-center justify-center ${
+                paymentType === 'გადახდა ნაღდი ფულით შეკვეთის მიღებისას' &&
+                'border-[#005CC8]'
+              }`}
+            >
+              <div
+                className={`w-full h-full rounded-full transition-all ease-linear ${
+                  paymentType === 'გადახდა ნაღდი ფულით შეკვეთის მიღებისას' &&
+                  'bg-[#005CC8]'
+                }`}
+              ></div>
+            </div>
+            <span className='text-sm translate-y-[1px]'>
+              გადახდა ნაღდი ფულით შეკვეთის მიღებისას
+            </span>
+          </button>
+          <button
+            onClick={() => setPaymentType('თიბისი ბანკის ონლაინ განვადება')}
+            className='flex items-center gap-2'
+          >
+            <div
+              className={`w-[13px] h-[13px] rounded-full p-[2px] border border-[#616161] flex items-center justify-center ${
+                paymentType === 'თიბისი ბანკის ონლაინ განვადება' &&
+                'border-[#005CC8]'
+              }`}
+            >
+              <div
+                className={`w-full h-full rounded-full transition-all ease-linear ${
+                  paymentType === 'თიბისი ბანკის ონლაინ განვადება' &&
+                  'bg-[#005CC8]'
+                }`}
+              ></div>
+            </div>
+            <span className='text-sm translate-y-[1px]'>
+              თიბისი ბანკის ონლაინ განვადება
+            </span>
+            <Image src={tbc_logo} width={110} height={110} alt='tbc_logo' />
+          </button>
+          <button
+            onClick={() => setPaymentType('ონლაინ გადახდა')}
+            className='flex items-center gap-2 -translate-y-3'
+          >
+            <div
+              className={`w-[13px] h-[13px] rounded-full p-[2px] border border-[#616161] flex items-center justify-center ${
+                paymentType === 'ონლაინ გადახდა' && 'border-[#005CC8]'
+              }`}
+            >
+              <div
+                className={`w-full h-full rounded-full transition-all ease-linear ${
+                  paymentType === 'ონლაინ გადახდა' && 'bg-[#005CC8]'
+                }`}
+              ></div>
+            </div>
+            <span className='text-sm translate-y-[1px]'>ონლაინ გადახდა</span>
+            <FaStripe className='text-[45px] text-[#665BFF]' />
+          </button>
+        </div>
+        <p className='text-[#777777] text-sm border-t border-b py-3 -translate-y-3 border-[#E4E4E4]'>
+          თქვენი პერსონალური მონაცემები გამოიყენება შეკვეთების გასაფორმებლად,
+          საიტთან მუშაობის გასამარტივებლად და სხვა მიზნებისათვის,
+        </p>
+        <button className='w-full py-3 bg-main hover:bg-main/90 transition-all duration-200 ease-linear text-white font-semibold text-[15px]'>
+          Place order
+        </button>
       </div>
     </main>
   )
