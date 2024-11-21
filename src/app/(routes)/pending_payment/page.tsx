@@ -7,8 +7,9 @@ import { retrievePaymentIntent } from '../utils/stripe'
 import { IoIosClose } from 'react-icons/io'
 import { TbCurrencyLari } from 'react-icons/tb'
 import Link from 'next/link'
-import { useDispatch } from 'react-redux'
-import { initializeCart } from '@/lib/slices/products'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '@/lib/store'
+import { finishPurchase } from '../utils/products'
 
 type intentProduct = {
   name: string
@@ -30,8 +31,7 @@ const PendingPayment = () => {
   const [params] = useSearchParams()
   const [paymentIntent, setPaymentIntent] =
     useState<completePaymentIntent | null>(null)
-
-  console.log(paymentIntent)
+  const { retrievedCart } = useSelector((state: RootState) => state.products)
 
   useEffect(() => {
     const paymentIntentId = params.find((param) => {
@@ -44,11 +44,10 @@ const PendingPayment = () => {
   }, [])
 
   useEffect(() => {
-    if (paymentIntent) {
-      dispatch(initializeCart({ cart: [] }))
-      localStorage.setItem('cart', '[]')
+    if (paymentIntent && retrievedCart) {
+      finishPurchase(retrievedCart, dispatch)
     }
-  }, [paymentIntent])
+  }, [paymentIntent, retrievedCart])
 
   if (paymentIntent) {
     return (

@@ -10,7 +10,7 @@ import { toggleCart } from '@/lib/slices/products'
 import { MdDeliveryDining } from 'react-icons/md'
 import Link from 'next/link'
 import { AppDispatch, RootState } from '@/lib/store'
-import { initializeCart } from '@/lib/slices/products'
+import { finishPurchase } from '../utils/products'
 
 const OrderComplete = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -19,7 +19,9 @@ const OrderComplete = () => {
   const [session, setSession] = useState<any>({})
   const [totalPrice, setTotalPrice] = useState<number>(0)
 
-  const { cartOpen } = useSelector((state: RootState) => state.products)
+  const { cartOpen, retrievedCart } = useSelector(
+    (state: RootState) => state.products
+  )
 
   useEffect(() => {
     const sessionId = params.get('session_id')
@@ -32,14 +34,16 @@ const OrderComplete = () => {
       if (data.session && data.status && data.lineItems) {
         setLineItems(data.lineItems.data)
         setSession(data.session)
-        dispatch(initializeCart({ cart: [] }))
-        localStorage.setItem('cart', '[]')
       }
-
-      console.log(data)
     }
     retrieveSession()
   }, [])
+
+  useEffect(() => {
+    if (retrievedCart.length > 0) {
+      finishPurchase(retrievedCart, dispatch)
+    }
+  }, [retrievedCart])
 
   useEffect(() => {
     if (lineItems.length > 0) {
