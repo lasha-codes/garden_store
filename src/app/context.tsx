@@ -1,16 +1,16 @@
 'use client'
 
-import { AppDispatch, RootState } from '@/lib/store'
+import { AppDispatch } from '@/lib/store'
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import axios from 'axios'
 import { assignCart, initializeCart } from '@/lib/slices/products'
+import { getSlider } from '@/lib/slices/products'
 
 const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [isClient, setIsClient] = useState<boolean>(false)
   const dispatch = useDispatch<AppDispatch>()
-  const { cart } = useSelector((state: RootState) => state.products)
 
   const fetchCart = async () => {
     try {
@@ -37,6 +37,10 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
       console.error('Error fetching products:', err)
     }
   }
+
+  useEffect(() => {
+    dispatch(getSlider())
+  }, [])
 
   useEffect(() => {
     if (!isClient) {

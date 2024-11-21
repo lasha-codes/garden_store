@@ -33,6 +33,19 @@ export const retrieveCartData = createAsyncThunk('cart/retrieve', async () => {
   }
 })
 
+export const getSlider = createAsyncThunk('slider/get', async () => {
+  try {
+    const { data } = await axios.get('/products/slider/get')
+    if (data.slider) {
+      return data.slider
+    } else {
+      return []
+    }
+  } catch (err) {
+    console.error('Error retrieving the slider data', err)
+  }
+})
+
 interface CartProduct extends Product {
   qty: number
 }
@@ -43,6 +56,11 @@ type initialStateType = {
   cart: { id: string; qty: number }[]
   retrievedCart: CartProduct[]
   cartLoading: 'pending' | 'rejected' | 'fulfilled'
+  slider: {
+    product: {
+      images: string[]
+    }
+  }[]
 }
 
 const initialState: initialStateType = {
@@ -51,6 +69,7 @@ const initialState: initialStateType = {
   cart: [],
   retrievedCart: [],
   cartLoading: 'fulfilled',
+  slider: [],
 }
 
 const productsSlice = createSlice({
@@ -140,6 +159,11 @@ const productsSlice = createSlice({
       .addCase(retrieveCartData.rejected, (state) => {
         state.cartLoading = 'rejected'
         state.cart = []
+      })
+      .addCase(getSlider.fulfilled, (state, action) => {
+        const { payload } = action
+        state.slider = payload
+        console.log('payload', state.slider)
       })
   },
 })
