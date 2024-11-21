@@ -138,6 +138,13 @@ const Checkout = () => {
         // @ts-ignore
         metadata.orderNotes = orderNotes
       }
+      if (
+        paymentType !== 'საბანკო გადარიცხვა' &&
+        paymentType !== 'თიბისი ბანკის ონლაინ განვადება'
+      ) {
+        // @ts-ignore
+        metadata.shipping_cost = deliveryPrice
+      }
 
       const { data } = await axios.post('/stripe/create/pending/intent', {
         products: retrievedCart,
