@@ -6,6 +6,7 @@ import axios from 'axios'
 import Cart from '@/components/cart'
 import ContextProvider from './context'
 import { Toaster } from 'sonner'
+import { ClerkProvider } from '@clerk/nextjs'
 
 import './globals.css'
 
@@ -21,11 +22,13 @@ export default function RootLayout({
     <html lang='en'>
       <body className='py-6 px-12 relative'>
         <Provider store={store}>
-          <ContextProvider>
-            <Header />
-            {children}
-            <Cart />
-          </ContextProvider>
+          <ClerkProvider>
+            <ContextProvider>
+              <Header />
+              {children}
+              <Cart />
+            </ContextProvider>
+          </ClerkProvider>
           <Toaster position='top-right' className='font-notoSans' richColors />
         </Provider>
       </body>

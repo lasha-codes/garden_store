@@ -7,12 +7,14 @@ import { AppDispatch, RootState } from '@/lib/store'
 import { toggleLanguage, toggleMenu } from '@/lib/slices/global_slice'
 import { usePathname } from 'next/navigation'
 import { selectCartTotals, toggleCart } from '@/lib/slices/products'
+import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 
 const Header = () => {
   const pathname = usePathname()
   const dispatch = useDispatch<AppDispatch>()
   const { language, menuOpen } = useSelector((state: RootState) => state.global)
   const { totalCount } = useSelector(selectCartTotals)
+
   return (
     <header className='w-full h-full flex items-center justify-between'>
       <Link href='/' className=''>
@@ -94,7 +96,14 @@ const Header = () => {
               </div>
             )}
           </button>
-          <FiUser className='text-xl cursor-pointer' />
+          <SignedOut>
+            <Link href='/sign-in'>
+              <FiUser className='text-xl' />
+            </Link>
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
         </div>
       </div>
       <div className='relative hidden max-lg:block'>
@@ -170,7 +179,14 @@ const Header = () => {
                 </div>
               )}
             </button>
-            <FiUser className='text-xl' />
+            <SignedOut>
+              <Link href='/sign-in'>
+                <FiUser className='text-xl' />
+              </Link>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
           </div>
         </nav>
       </div>
