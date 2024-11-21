@@ -25,7 +25,7 @@ const Products = () => {
             : 'opacity-0 pointer-events-none'
         }`}
       />
-      <div className='w-full flex items-center gap-5 flex-wrap'>
+      <div className='w-full grid grid-cols-5 gap-5 max-2xl:grid-cols-4 max-xl:grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1'>
         {products.map((product, idx) => {
           return <Product key={idx} product={product} />
         })}

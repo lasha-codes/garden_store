@@ -15,8 +15,10 @@ import Image from 'next/image'
 import { loadStripe } from '@stripe/stripe-js'
 import axios from 'axios'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 const Checkout = () => {
+  const router = useRouter()
   const dispatch = useDispatch<AppDispatch>()
   const { cartOpen, retrievedCart } = useSelector(
     (state: RootState) => state.products
@@ -32,6 +34,14 @@ const Checkout = () => {
     | 'თიბისი ბანკის ონლაინ განვადება'
     | 'ონლაინ გადახდა'
   >('საბანკო გადარიცხვა')
+  const [name, setName] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [idNumber, setIdNumber] = useState<string>('')
+  const [city, setCity] = useState<string>('')
+  const [address, setAddress] = useState<string>('')
+  const [phoneNumber, setPhoneNumber] = useState<string>('')
+  const [lastName, setLastName] = useState<string>('')
+  const [orderNotes, setOrderNotes] = useState<string>('')
 
   useEffect(() => {
     dispatch(retrieveCartData())
@@ -68,6 +78,90 @@ const Checkout = () => {
     }
   }
 
+  const createPendingSession = async () => {
+    try {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+
+      const validEmailProvided = emailRegex.test(email)
+
+      if (!validEmailProvided) {
+        toast.error('გთხოვთ მიუთითეთ სწორი ელფოსტა.')
+      }
+
+      if (!name) {
+        toast.error('გთხოვთ მიუთითეთ სახელი *')
+      }
+      if (!lastName) {
+        toast.error('გთხოვთ მიუთითეთ გვარი *')
+      }
+      if (!idNumber) {
+        toast.error('გთხოვთ მიუთითეთ პირადი ნომერი *')
+      }
+      if (!city) {
+        toast.error('გთხოვთ მიუთითეთ ქალაქი *')
+      }
+      if (!address) {
+        toast.error('გთხოვთ მიუთითეთ მისამართი *')
+      }
+      if (!phoneNumber) {
+        toast.error('გთხოვთ მიუთითეთ ტელეფონი *')
+      }
+      if (!email) {
+        toast.error('გთხოვთ მიუთითეთ, ელფოსტა *')
+      }
+      if (
+        !name ||
+        !lastName ||
+        !idNumber ||
+        !city ||
+        !address ||
+        !phoneNumber ||
+        !email ||
+        !validEmailProvided
+      ) {
+        return
+      }
+
+      const metadata = {
+        name: name,
+        lastName: lastName,
+        id: idNumber,
+        payment_method: paymentType,
+        delivery: delivery,
+        city: city,
+        address: address,
+        phone: phoneNumber,
+        email: email,
+      }
+      setPaymentLoading(true)
+      if (orderNotes) {
+        // @ts-ignore
+        metadata.orderNotes = orderNotes
+      }
+
+      const { data } = await axios.post('/stripe/create/pending/intent', {
+        products: retrievedCart,
+        metadata: metadata,
+      })
+
+      setName('')
+      setLastName('')
+      setIdNumber('')
+      setCity('')
+      setPhoneNumber('')
+      setAddress('')
+      setEmail('')
+      setOrderNotes('')
+
+      setPaymentLoading(false)
+      if (data.paymentIntentId) {
+        router.replace(`/pending_payment?paymentIntent=${data.paymentIntentId}`)
+      }
+    } catch (err: any) {
+      console.error('Error creating pending payment:', err.message)
+    }
+  }
+
   return (
     <main className='bg-white flex items-start gap-4 mt-16 font-notoSans'>
       <div
@@ -93,6 +187,8 @@ const Checkout = () => {
                 <span className='text-red-500'>*</span>
               </label>
               <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 id='name'
                 type='text'
                 className='w-full h-[42px] outline-none px-3 text-[15px] py-1 border border-[#D9D9D9] text-[#778080]'
@@ -107,6 +203,8 @@ const Checkout = () => {
                 <span className='text-red-500'>*</span>
               </label>
               <input
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
                 id='lastName'
                 type='text'
                 className='w-full h-[42px] outline-none text-[15px] px-3 py-1 border border-[#D9D9D9] text-[#778080]'
@@ -122,6 +220,13 @@ const Checkout = () => {
               <span className='text-red-500'>*</span>
             </label>
             <input
+              value={idNumber}
+              onChange={(e) => {
+                if (!Number.isInteger(Number(e.target.value))) {
+                  return
+                }
+                setIdNumber(e.target.value)
+              }}
               id='idNumber'
               type='text'
               className='w-full h-[42px] outline-none text-[15px] px-3 py-1 border border-[#D9D9D9] text-[#778080]'
@@ -145,6 +250,8 @@ const Checkout = () => {
               <span className='text-red-500'>*</span>
             </label>
             <input
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
               id='city'
               type='text'
               className='w-full h-[42px] outline-none text-[15px] px-3 py-1 border border-[#D9D9D9] text-[#778080]'
@@ -159,6 +266,8 @@ const Checkout = () => {
               <span className='text-red-500'>*</span>
             </label>
             <input
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
               id='address'
               type='text'
               placeholder='სახლის ნომერი და ქუჩის მისამართი'
@@ -174,6 +283,16 @@ const Checkout = () => {
               <span className='text-red-500'>*</span>
             </label>
             <input
+              value={phoneNumber}
+              onChange={(e) => {
+                if (
+                  e.target.value !== '+' &&
+                  !Number.isInteger(Number(e.target.value))
+                ) {
+                  return
+                }
+                setPhoneNumber(e.target.value)
+              }}
               id='phone'
               type='text'
               className='w-full h-[42px] outline-none px-3 text-[15px] py-1 border border-[#D9D9D9] text-[#778080] placeholder:text-[#778080]'
@@ -188,6 +307,8 @@ const Checkout = () => {
               <span className='text-red-500'>*</span>
             </label>
             <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               id='email'
               type='email'
               className='w-full h-[42px] outline-none px-3 text-[15px] py-1 border border-[#D9D9D9] text-[#778080] placeholder:text-[#778080]'
@@ -201,6 +322,8 @@ const Checkout = () => {
               Order notes (optional)
             </label>
             <textarea
+              value={orderNotes}
+              onChange={(e) => setOrderNotes(e.target.value)}
               id='notes'
               placeholder='Notes about your order, e.g. special notes for delivery.'
               className='w-full h-[180px] outline-none px-3 text-[15px] py-4 border border-[#D9D9D9] text-[#778080] placeholder:text-[#778080]'
@@ -215,7 +338,7 @@ const Checkout = () => {
             <h3 className='font-semibold text-[15px]'>PRODUCT</h3>
             <h3 className='font-semibold text-[15px]'>SUBTOTAL</h3>
           </div>
-          {retrievedCart.map((product, idx) => {
+          {retrievedCart?.map((product, idx) => {
             return (
               <div
                 key={idx}
@@ -226,7 +349,7 @@ const Checkout = () => {
                     href={`/products/${product.id}`}
                     className='text-[#777777] text-[15px] py-3'
                   >
-                    {product.geo_title}
+                    <h3 className='max-w-[250px]'>{product.geo_title}</h3>
                   </Link>
                   <IoIosClose className='text-[#707070] text-[17px]' />
                   <span className='text-sm font-semibold text-[#777777]'>
@@ -264,7 +387,7 @@ const Checkout = () => {
                 <span className='text-sm translate-y-[1px]'>თვითგატანა</span>
                 <div
                   className={`w-[13px] h-[13px] ${
-                    delivery === 'თვითგატანა' && 'border-[#005CC8]'
+                    delivery === 'თვითგატანა' && '!border-[#005CC8]'
                   } rounded-full p-[2px] border border-[#616161] flex items-center justify-center`}
                 >
                   <div
@@ -290,7 +413,7 @@ const Checkout = () => {
                 </div>
                 <div
                   className={`w-[13px] h-[13px] rounded-full p-[2px] border border-[#616161] flex items-center justify-center ${
-                    delivery === 'მიწოდება თბილისში' && 'border-[#005CC8]'
+                    delivery === 'მიწოდება თბილისში' && '!border-[#005CC8]'
                   }`}
                 >
                   <div
@@ -316,7 +439,7 @@ const Checkout = () => {
                 </div>
                 <div
                   className={`w-[13px] h-[13px] rounded-full p-[2px] border border-[#616161] flex items-center justify-center ${
-                    delivery === 'მიწოდება რეგიონში' && 'border-[#005CC8]'
+                    delivery === 'მიწოდება რეგიონში' && '!border-[#005CC8]'
                   }`}
                 >
                   <div
@@ -345,7 +468,7 @@ const Checkout = () => {
           >
             <div
               className={`w-[13px] h-[13px] rounded-full p-[2px] border border-[#616161] flex items-center justify-center ${
-                paymentType === 'საბანკო გადარიცხვა' && 'border-[#005CC8]'
+                paymentType === 'საბანკო გადარიცხვა' && '!border-[#005CC8]'
               }`}
             >
               <div
@@ -367,7 +490,7 @@ const Checkout = () => {
             <div
               className={`w-[13px] h-[13px] rounded-full p-[2px] border border-[#616161] flex items-center justify-center ${
                 paymentType === 'გადახდა ნაღდი ფულით შეკვეთის მიღებისას' &&
-                'border-[#005CC8]'
+                '!border-[#005CC8]'
               }`}
             >
               <div
@@ -388,7 +511,7 @@ const Checkout = () => {
             <div
               className={`w-[13px] h-[13px] rounded-full p-[2px] border border-[#616161] flex items-center justify-center ${
                 paymentType === 'თიბისი ბანკის ონლაინ განვადება' &&
-                'border-[#005CC8]'
+                '!border-[#005CC8]'
               }`}
             >
               <div
@@ -409,7 +532,7 @@ const Checkout = () => {
           >
             <div
               className={`w-[13px] h-[13px] rounded-full p-[2px] border border-[#616161] flex items-center justify-center ${
-                paymentType === 'ონლაინ გადახდა' && 'border-[#005CC8]'
+                paymentType === 'ონლაინ გადახდა' && '!border-[#005CC8]'
               }`}
             >
               <div
@@ -436,6 +559,8 @@ const Checkout = () => {
           onClick={() => {
             if (paymentType === 'ონლაინ გადახდა') {
               createStripeCheckoutSession()
+            } else {
+              createPendingSession()
             }
           }}
           className='w-full py-3 bg-main hover:bg-main/90 h-[50px] flex items-center justify-center transition-all duration-200 ease-linear text-white font-semibold text-[15px]'

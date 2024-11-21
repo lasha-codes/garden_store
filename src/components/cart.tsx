@@ -6,9 +6,10 @@ import { TbCurrencyLari } from 'react-icons/tb'
 import { clearCart, selectCartTotals, toggleCart } from '@/lib/slices/products'
 import Product from './product'
 import { BsCartX } from 'react-icons/bs'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 const Cart = () => {
+  const router = useRouter()
   const dispatch = useDispatch<AppDispatch>()
   const { language } = useSelector((state: RootState) => state.global)
   const { cartOpen, retrievedCart } = useSelector(
@@ -52,7 +53,7 @@ const Cart = () => {
                 {language === 'geo' ? 'ჯამი:' : 'Total:'}
               </span>
               <span className='flex items-center gap-1 text-[19px] font-notoSans font-semibold text-main'>
-                <span className='translate-y-0.5'>{totalPrice}</span>{' '}
+                <span className='translate-y-0.5'>{totalPrice}</span>
                 <TbCurrencyLari className='text-[20px]' />
               </span>
             </div>
@@ -63,12 +64,15 @@ const Cart = () => {
               >
                 {language === 'geo' ? 'კალათის გასუფთავება' : 'Clear cart'}
               </button>
-              <a
-                href='/checkout'
+              <button
+                onClick={() => {
+                  dispatch(toggleCart(false))
+                  router.push('/checkout')
+                }}
                 className='h-[42px] text-center text-sm flex items-center justify-center w-full bg-main font-semibold hover:bg-[#476e2b] transition-all duration-200 ease-linear text-white'
               >
                 {language === 'geo' ? 'შეძენა' : 'Purchase'}
-              </a>
+              </button>
             </div>
           </div>
         </>

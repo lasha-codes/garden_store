@@ -3,7 +3,6 @@ import Image from 'next/image'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/lib/store'
 import { IoIosClose } from 'react-icons/io'
-import { trimText } from '@/utils/utils'
 import { CgDollar } from 'react-icons/cg'
 import { TbCurrencyLari } from 'react-icons/tb'
 import { MdEuroSymbol } from 'react-icons/md'
@@ -11,6 +10,7 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/lib/store'
 import { removeFromCart } from '@/lib/slices/products'
 import Link from 'next/link'
+import { trimText } from '@/utils/utils'
 
 interface CartProduct extends ProductType {
   qty: number
@@ -50,7 +50,10 @@ const Product = ({ product }: { product: CartProduct }) => {
         className='flex flex-col w-full items-start'
       >
         <h3 className='font-semibold text-[15px]'>
-          {language === 'geo' ? product.geo_title : product.eng_title}
+          {trimText(
+            language === 'geo' ? product.geo_title : product.eng_title,
+            18
+          )}
         </h3>
         <p className='text-[13px] max-w-[90%]'>
           {trimText(

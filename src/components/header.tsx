@@ -139,8 +139,8 @@ const Header = () => {
                 <span
                   className={`${
                     language === 'geo'
-                      ? 'opacity-100 pointer-events-auto block'
-                      : 'opacity-0 pointer-events-none absolute top-0'
+                      ? 'opacity-100 block'
+                      : 'opacity-0 absolute top-0'
                   }`}
                 >
                   {link.geo_title}
@@ -148,8 +148,8 @@ const Header = () => {
                 <span
                   className={`${
                     language === 'eng'
-                      ? 'opacity-100 pointer-events-auto block'
-                      : 'opacity-0 pointer-events-none absolute top-0'
+                      ? 'opacity-100 block'
+                      : 'opacity-0 absolute top-0'
                   }`}
                 >
                   {link.eng_title}

@@ -69,9 +69,9 @@ const OrderComplete = () => {
                     className='py-3 border-b border-[#E4E4E4] flex items-center w-full justify-between'
                   >
                     <div className='flex items-center gap-1'>
-                      <h3 className='text-[15px] text-[#777777]'>
+                      <p className='text-[15px] text-[#777777] max-w-[250px]'>
                         {product.description}
-                      </h3>
+                      </p>
                       <IoIosClose className='text-[#6c6c6c]' />
                       <span className='text-sm font-semibold text-[#777777]'>
                         {product.quantity}
