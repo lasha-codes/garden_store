@@ -29,11 +29,6 @@ export const navigation: NavigationType[] = [
     path: '/products',
   },
   {
-    eng_title: 'News',
-    geo_title: 'სიახლეები',
-    path: '/news',
-  },
-  {
     eng_title: 'Contact',
     geo_title: 'კონტაქტი',
     path: '/contact',
