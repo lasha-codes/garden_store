@@ -16,11 +16,12 @@ import { loadStripe } from '@stripe/stripe-js'
 import axios from 'axios'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import { validateCheckoutRoute } from '../utils/products'
 
 const Checkout = () => {
   const router = useRouter()
   const dispatch = useDispatch<AppDispatch>()
-  const { cartOpen, retrievedCart } = useSelector(
+  const { cartOpen, retrievedCart, cartLoading } = useSelector(
     (state: RootState) => state.products
   )
   const { totalPrice } = useSelector(selectCartTotals)
@@ -44,8 +45,16 @@ const Checkout = () => {
   const [orderNotes, setOrderNotes] = useState<string>('')
 
   useEffect(() => {
-    dispatch(retrieveCartData())
-  }, [])
+    if (cartLoading === 'validated' || cartLoading === 'rejected') {
+      validateCheckoutRoute(router, cartLoading, retrievedCart)
+    }
+  }, [cartLoading, retrievedCart])
+
+  useEffect(() => {
+    if (retrieveCartData.length === 0) {
+      dispatch(retrieveCartData())
+    }
+  }, [retrievedCart])
 
   const [paymentLoading, setPaymentLoading] = useState<boolean>(false)
   const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_KEY!)

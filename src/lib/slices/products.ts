@@ -55,7 +55,7 @@ type initialStateType = {
   cartOpen: boolean
   cart: { id: string; qty: number }[]
   retrievedCart: CartProduct[]
-  cartLoading: 'pending' | 'rejected' | 'fulfilled'
+  cartLoading: 'pending' | 'rejected' | 'fulfilled' | 'validated'
   slider: {
     product: {
       images: string[]
@@ -150,8 +150,8 @@ const productsSlice = createSlice({
       })
       .addCase(retrieveCartData.fulfilled, (state, action) => {
         const { payload } = action
+        state.cartLoading = 'validated'
         state.retrievedCart = payload
-        state.cartLoading = 'fulfilled'
       })
       .addCase(retrieveCartData.pending, (state) => {
         state.cartLoading = 'pending'
@@ -163,7 +163,6 @@ const productsSlice = createSlice({
       .addCase(getSlider.fulfilled, (state, action) => {
         const { payload } = action
         state.slider = payload
-        console.log('payload', state.slider)
       })
   },
 })
