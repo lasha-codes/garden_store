@@ -1,9 +1,13 @@
 import ContactForm from './_components/form'
+import PhoneSVG from './_components/phone'
+import Socials from './_components/socials'
 
 const Contact = () => {
   return (
-    <main className='h-[90vh] w-full flex items-center justify-between'>
+    <main className='h-[90vh] w-full flex flex-col items-center mt-20 gap-5 xl:gap-20 xl:justify-center lg:m-none lg:flex-row lg:justify-between lg:gap-0'>
+      <Socials />
       <ContactForm />
+      <PhoneSVG />
     </main>
   )
 }

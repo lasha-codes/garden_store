@@ -5,6 +5,8 @@ import table_plant from './assets/table_plant.png'
 import trending from './assets/trending_products.png'
 import best_seller from './assets/best_seller.png'
 import top_products from './assets/top_products.png'
+import { FaViber, FaWhatsapp, FaFacebook } from 'react-icons/fa6'
+import { IconType } from 'react-icons/lib'
 
 type NavigationType = {
   eng_title: string
@@ -117,5 +119,29 @@ export const categories = [
     geo_description: 'სახლის მცენარეები',
     eng_description: 'Plants For Home',
     image: trending,
+  },
+]
+
+type socialsType = {
+  icon: IconType
+  link: string
+  color: string
+}
+
+export const socials: socialsType[] = [
+  {
+    icon: FaViber,
+    link: `https://viber.com/596410041`,
+    color: '#583FBB',
+  },
+  {
+    icon: FaWhatsapp,
+    link: `https://wa.me/${+995577400041}`,
+    color: '#25D366',
+  },
+  {
+    icon: FaFacebook,
+    link: 'https://www.facebook.com/profile.php?id=61557246690936',
+    color: '#0866FF',
   },
 ]
