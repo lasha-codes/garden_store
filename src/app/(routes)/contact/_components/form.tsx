@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import ContactInput from './input'
+import { contactViaEmail } from '../../utils/email'
 
 const ContactForm = () => {
   const [fullName, setFullName] = useState<string>('')
@@ -10,7 +11,27 @@ const ContactForm = () => {
   const [message, setMessage] = useState<string>('')
 
   return (
-    <form className='flex flex-col items-start gap-10 font-poppins w-[350px]'>
+    <form
+      onSubmit={async (e: React.FormEvent) => {
+        e.preventDefault()
+        // @ts-ignore
+        const { success }: { success: boolean } = await contactViaEmail(
+          fullName,
+          email,
+          phone,
+          subject,
+          message
+        )
+        if (success) {
+          setFullName('')
+          setEmail('')
+          setPhone('')
+          setSubject('')
+          setMessage('')
+        }
+      }}
+      className='flex flex-col items-start gap-10 font-poppins w-[350px]'
+    >
       <h2 className='text-4xl font-semibold'>CONTACT US</h2>
       <div className='flex flex-col items-start gap-3.5 w-full'>
         <ContactInput

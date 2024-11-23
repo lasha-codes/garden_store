@@ -15,7 +15,7 @@ const Categories = () => {
             className='relative w-full h-[170px] bg-[#dbd8d8a8] flex items-center gap-5 px-6 group'
           >
             <div className='w-1/2  h-[250px]'>
-              <div className='w-full h-full absolute -top-20 left-0 group-hover:-translate-y-4 transition-all duration-300'>
+              <div className='w-full h-full absolute z-[999] -top-20 left-0 group-hover:-translate-y-4 transition-all duration-300'>
                 <Image
                   priority
                   src={category.image}

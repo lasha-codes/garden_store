@@ -2,9 +2,9 @@ import plant from './assets/plant.png'
 import plant_stand from './assets/plant_stand.png'
 import outdoor_pot from './assets/outdoor_pot.png'
 import table_plant from './assets/table_plant.png'
-import trending from './assets/trending_products.png'
-import best_seller from './assets/best_seller.png'
-import top_products from './assets/top_products.png'
+import premium_quality from './assets/premium_quality.png'
+import user_friendly from './assets/user_friendly.webp'
+import most_used_tools from './assets/most_used_tools.webp'
 import { FaViber, FaWhatsapp, FaFacebook } from 'react-icons/fa6'
 import { IconType } from 'react-icons/lib'
 
@@ -100,25 +100,25 @@ export const sliderData = [
 
 export const categories = [
   {
-    geo_title: 'ხშირად გაყიდვადი',
-    eng_title: 'Most Sold',
-    geo_description: 'ინტერიორის მცენარეები',
-    eng_description: 'Plants For Interiors',
-    image: best_seller,
+    geo_title: 'ხშირად გამოყენებადი',
+    eng_title: 'Most Used',
+    geo_description: 'ძირითადი ხელსაწყოები',
+    eng_description: 'Essential Tools',
+    image: most_used_tools,
   },
   {
-    geo_title: 'ტოპ პროდუქტები',
-    eng_title: 'Top Products',
-    geo_description: 'მედიცინის მცენარეები',
-    eng_description: 'Plants For Health',
-    image: top_products,
+    geo_title: 'მაღალი ხარისხი',
+    eng_title: 'Premium Quality',
+    geo_description: 'სახლის ხელსაწყოები',
+    eng_description: 'Home Tools',
+    image: premium_quality,
   },
   {
-    geo_title: 'ტრენდში',
-    eng_title: 'Trending Now',
-    geo_description: 'სახლის მცენარეები',
-    eng_description: 'Plants For Home',
-    image: trending,
+    geo_title: 'მოსახერხებელი',
+    eng_title: 'User-Friendly',
+    geo_description: 'ბაღისთვის ხელსაწყოები',
+    eng_description: 'Tools for Gardening',
+    image: user_friendly,
   },
 ]
 
