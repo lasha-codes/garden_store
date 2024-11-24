@@ -7,6 +7,7 @@ import Cart from '@/components/cart'
 import ContextProvider from './context'
 import { Toaster } from 'sonner'
 import { ClerkProvider } from '@clerk/nextjs'
+import { usePathname } from 'next/navigation'
 
 import './globals.css'
 
@@ -18,9 +19,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const pathname = usePathname()
   return (
     <html lang='en'>
-      <body className='py-6 px-12 relative'>
+      <body
+        className={`py-6 px-12 relative ${
+          pathname.toLowerCase().includes('/admin') && '!p-0'
+        }`}
+      >
         <Provider store={store}>
           <ClerkProvider>
             <ContextProvider>

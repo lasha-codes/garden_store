@@ -31,7 +31,7 @@ export const contactViaEmail = async (
     })
 
     if (data.information) {
-      toast.success('ემაილი წარმატებით გაიგზავნა')
+      toast.success('მეილი წარმატებით გაიგზავნა')
       return { success: true }
     } else {
       return { success: false }
