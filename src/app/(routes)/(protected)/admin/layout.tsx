@@ -20,7 +20,7 @@ const AdminLayout = ({ children }: { children: Readonly<React.ReactNode> }) => {
   }, [user, router])
 
   return (
-    <main className='w-full min-h-screen bg-[#1D1D1D] flex items-start'>
+    <main className='w-full min-h-screen bg-[#1D1D1D] flex items-start font-notoSans'>
       <Sidebar />
       <div className='h-full flex flex-col items-center w-full'>
         <Header />
