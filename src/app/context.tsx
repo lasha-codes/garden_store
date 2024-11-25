@@ -4,7 +4,11 @@ import { AppDispatch } from '@/lib/store'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useState } from 'react'
-import { assignCart, retrieveCartData } from '@/lib/slices/products'
+import {
+  assignCart,
+  fetchProducts,
+  retrieveCartData,
+} from '@/lib/slices/products'
 import { getSlider } from '@/lib/slices/products'
 
 const ContextProvider = ({ children }: { children: React.ReactNode }) => {
@@ -13,6 +17,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     dispatch(getSlider())
+    dispatch(fetchProducts())
   }, [])
 
   useEffect(() => {

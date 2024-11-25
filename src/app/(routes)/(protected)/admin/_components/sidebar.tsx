@@ -5,7 +5,7 @@ import Navigation from './navigation'
 
 const Sidebar = () => {
   return (
-    <div className='h-screen w-[350px] bg-[#111111] flex flex-col items-start gap-5 py-3'>
+    <div className='h-screen w-[350px] bg-[#111111] flex flex-col items-start gap-5 py-[19px]'>
       <Link
         href='/admin'
         className='flex items-center gap-3 justify-center w-full'

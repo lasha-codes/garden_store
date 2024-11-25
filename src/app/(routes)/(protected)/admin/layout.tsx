@@ -5,8 +5,12 @@ import { useRouter } from 'next/navigation'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 import Header from './_components/header'
 import Sidebar from './_components/sidebar'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '@/lib/store'
+import { retrieveUsers } from '@/lib/slices/users'
 
 const AdminLayout = ({ children }: { children: Readonly<React.ReactNode> }) => {
+  const dispatch = useDispatch<AppDispatch>()
   const router: AppRouterInstance = useRouter()
   const { user } = useUser()
 
@@ -18,6 +22,10 @@ const AdminLayout = ({ children }: { children: Readonly<React.ReactNode> }) => {
       }
     }
   }, [user, router])
+
+  useEffect(() => {
+    dispatch(retrieveUsers())
+  }, [])
 
   return (
     <main className='w-full min-h-screen bg-[#1D1D1D] flex items-start font-notoSans'>

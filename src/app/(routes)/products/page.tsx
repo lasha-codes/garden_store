@@ -1,8 +1,7 @@
 'use client'
 
-import { fetchProducts, toggleCart } from '@/lib/slices/products'
+import { toggleCart } from '@/lib/slices/products'
 import { AppDispatch, RootState } from '@/lib/store'
-import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Product from './_components/product'
 const Products = () => {
@@ -10,10 +9,6 @@ const Products = () => {
   const { products, cartOpen } = useSelector(
     (state: RootState) => state.products
   )
-
-  useEffect(() => {
-    dispatch(fetchProducts())
-  }, [])
 
   return (
     <main className='w-full mt-16'>
