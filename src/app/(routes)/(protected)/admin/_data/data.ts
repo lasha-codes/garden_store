@@ -1,15 +1,16 @@
-import home from '../icons/home.svg'
-import products from '../icons/products.svg'
+import { GrHomeRounded } from 'react-icons/gr'
+import { CiGrid41 } from 'react-icons/ci'
 
 export const navigation = [
   {
-    icon: home,
+    icon: GrHomeRounded,
     name: 'სამართავი პანელი',
-    href: '/',
+    href: '/admin',
+    size: '20px',
   },
   {
-    icon: products,
+    icon: CiGrid41,
     name: 'პროდუქცია',
-    href: '/',
+    href: '/admin/products',
   },
 ]
