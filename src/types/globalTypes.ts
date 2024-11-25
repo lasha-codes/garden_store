@@ -14,4 +14,6 @@ export type Product = {
   model?: string
   material?: string
   weight?: string
+  createdAt: number
+  updatedAt: number
 }
