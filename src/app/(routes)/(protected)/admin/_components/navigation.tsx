@@ -18,7 +18,7 @@ const Navigation = () => {
           >
             {
               <item.icon
-                className={`group-hover:text-main transition-all duration-200 ease-linear ${
+                className={`group-hover:text-main text-[#5E5E5E] transition-all duration-200 ease-linear ${
                   pathname === item.href && '!text-main'
                 }`}
                 style={{
