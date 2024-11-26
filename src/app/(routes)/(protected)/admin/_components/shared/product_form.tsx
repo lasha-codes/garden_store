@@ -1,14 +1,18 @@
 'use client'
-import { Product } from '@/types/globalTypes'
-import { useState } from 'react'
+
+import { useState, useEffect } from 'react'
 import Input from './form_input'
 import Textarea from './form_textarea'
+import { useParams, useRouter } from 'next/navigation'
+import { getProductById } from '../../_utils/utils'
 
 type FormProps = {
   type: 'update' | 'add'
 }
 
 const Form = ({ type }: FormProps) => {
+  const params = useParams()
+  const router = useRouter()
   const [geoTitle, setGeoTitle] = useState<string>('')
   const [engTitle, setEngTitle] = useState<string>('')
   const [geoDescription, setGeoDescription] = useState<string>('')
@@ -24,6 +28,33 @@ const Form = ({ type }: FormProps) => {
   const [pdf, setPdf] = useState<string>('')
   const [youtubeLink, setYoutubeLink] = useState<string>('')
   const [price, setPrice] = useState<string>('')
+  const [images, setImages] = useState<string[]>([])
+
+  useEffect(() => {
+    if (params.id) {
+      getProductById(params.id as string).then((product) => {
+        if (product) {
+          setGeoTitle(product.geo_title)
+          setEngTitle(product.eng_title)
+          setGeoDescription(product.geo_description)
+          setEngDescription(product.eng_description)
+          setImages(product.images)
+          setColor(product?.color || '')
+          setBrand(product?.brand || '')
+          setModel(product?.model || '')
+          setSize(product?.size || '')
+          setMaterial(product?.material || '')
+          setWeight(product?.weight || '')
+          setQty(product.qty)
+          setPrice(product.price.toString())
+          setPdf(product.PDF || '')
+          setYoutubeLink(product?.youtubeURL || '')
+        } else {
+          router.replace('/admin/products')
+        }
+      })
+    }
+  }, [params])
 
   return (
     <form className='w-full flex flex-col items-start gap-3'>
