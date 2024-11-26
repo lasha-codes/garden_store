@@ -115,6 +115,30 @@ const Input = ({ value, setValue, placeholder, type, images }: InputProps) => {
         <TbCurrencyLari className='text-[#575757] text-xl' />
       </div>
     )
+  } else if (placeholder === 'ფერი ( NR )') {
+    return (
+      <div
+        className='w-full flex items-center h-[52px] pr-3 bg-[#111111] rounded-
+      [10px]'
+      >
+        <input
+          type={type}
+          placeholder={placeholder}
+          value={value}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            // @ts-ignore
+            setValue(e.target.value)
+          }}
+          className='w-full bg-transparent text-[#575757] placeholder:text-[#575757] py-4 px-6 rounded-[10px] outline-none text-sm font-semibold'
+        />
+        <div
+          className='h-[15px] w-[15px] rounded-[10px]'
+          style={{
+            background: value,
+          }}
+        />
+      </div>
+    )
   } else {
     return (
       <input

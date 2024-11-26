@@ -16,7 +16,7 @@ const ProductCard = ({ product }: { product: Product }) => {
     return `${day} ${month} ${year}`
   }
 
-  const date = formatDate(product.createdAt)
+  const date = product?.createdAt ? formatDate(product?.createdAt) : ''
 
   return (
     <div className='w-full py-4 border-b last:border-none border-[#202020] flex items-center justify-between'>
