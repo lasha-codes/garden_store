@@ -6,6 +6,7 @@ import Textarea from './form_textarea'
 import { useParams, useRouter } from 'next/navigation'
 import { getProductById, updateProduct } from '../../_utils/utils'
 import { Product } from '@/types/globalTypes'
+import { uploadProduct } from '../../_utils/utils'
 
 type FormProps = {
   type: 'update' | 'add'
@@ -67,7 +68,7 @@ const Form = ({ type }: FormProps) => {
           eng_description: engDescription,
           geo_description: geoDescription,
           images: images,
-          qty: qty,
+          qty: Number(qty),
           price: Number(price),
           currency: 'lari',
         }
@@ -97,11 +98,29 @@ const Form = ({ type }: FormProps) => {
         }
         if (params?.id && type === 'update') {
           // @ts-ignore
-          const data: { success: boolean } = await updateProduct(
-            product,
-            params.id as string
-          )
-          if (data.success) {
+          const data = await updateProduct(product, params.id as string)
+          if (data?.success) {
+            setGeoDescription('')
+            setEngDescription('')
+            setGeoTitle('')
+            setEngTitle('')
+            setImage('')
+            setPdf('')
+            setYoutubeLink('')
+            setColor('')
+            setBrand('')
+            setModel('')
+            setSize('')
+            setMaterial('')
+            setWeight('')
+            setQty(0)
+            setPrice('')
+            router.push('/admin/products')
+          }
+        } else {
+          // @ts-ignore
+          const status = await uploadProduct([product])
+          if (status?.success) {
             setGeoDescription('')
             setEngDescription('')
             setGeoTitle('')

@@ -29,6 +29,17 @@ export const updateProduct = async (product: Product, productId: string) => {
   }
 }
 
+export const uploadProduct = async (products: Product) => {
+  const { data } = await axios.post('/products/upload', products)
+  if (data.message) {
+    toast.success('პროდუქტი განახლებულია')
+    return { success: true }
+  } else {
+    toast.error('დაფიქსირდა ხარვეზი')
+    return { success: false }
+  }
+}
+
 export const uploadFile = (
   e: React.ChangeEvent<HTMLInputElement>,
   setFile: React.Dispatch<React.SetStateAction<string>> | null,
