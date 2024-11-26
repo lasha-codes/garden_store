@@ -28,3 +28,26 @@ export const updateProduct = async (product: Product, productId: string) => {
     toast.error(error.message)
   }
 }
+
+export const uploadFile = (
+  e: React.ChangeEvent<HTMLInputElement>,
+  setFile: React.Dispatch<React.SetStateAction<string>> | null,
+  setImages: React.Dispatch<React.SetStateAction<string[]>> | null
+) => {
+  const formData = new FormData()
+  formData.append('file', e.target?.files && (e.target.files[0] as any))
+  axios
+    .post('/files/upload', formData)
+    .then((response) => {
+      if (setFile) {
+        setFile(response.data.image_path)
+      } else {
+        setImages!((prev) => {
+          return [...prev, response.data.image_path]
+        })
+      }
+    })
+    .catch((err) => {
+      console.log(err.message)
+    })
+}

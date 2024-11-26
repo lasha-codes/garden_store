@@ -155,6 +155,8 @@ const Form = ({ type }: FormProps) => {
           placeholder='სურათის ლინკი'
           value={image}
           setValue={setImage}
+          images={images}
+          setImages={setImages}
         />
         <Input
           type='pdf'
