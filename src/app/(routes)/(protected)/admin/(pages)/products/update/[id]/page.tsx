@@ -27,7 +27,7 @@ const Update = () => {
   return (
     <main className='w-full flex flex-col items-start gap-5'>
       <h2 className='text-xl text-white'>პროდუქტის განახლება</h2>
-      <Form product={product as Product} type='update' />
+      <Form type='update' />
     </main>
   )
 }
