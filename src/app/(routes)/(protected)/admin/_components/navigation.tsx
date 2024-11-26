@@ -27,7 +27,7 @@ const Navigation = () => {
               />
             }
             <span
-              className={`text-[#5E5E5E] text-[15px] group-hover:text-main ${
+              className={`text-[#5E5E5E] font-semibold text-[15px] group-hover:text-main ${
                 pathname === item.href && '!text-main'
               }`}
             >
