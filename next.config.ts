@@ -1,6 +1,4 @@
 import type { NextConfig } from 'next'
-// @ts-ignore
-import withPreact from 'next-plugin-preact'
 const nextConfig: NextConfig = {
   async headers() {
     return [
@@ -27,8 +25,5 @@ const nextConfig: NextConfig = {
     ],
   },
 }
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-})
 
-export default { ...nextConfig, withBundleAnalyzer, withPreact: withPreact({}) }
+export default nextConfig
