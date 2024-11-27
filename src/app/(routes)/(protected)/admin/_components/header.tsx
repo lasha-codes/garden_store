@@ -4,6 +4,7 @@ import expand from '../icons/expand.png'
 import exit from '../icons/exit.png'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const Header = () => {
   const [time, setTime] = useState<Date>(new Date())
@@ -99,13 +100,13 @@ const Header = () => {
             alt='expand'
           />
         </button>
-        <button className='w-[23px] cursor-pointer'>
+        <Link href='/' className='w-[23px] cursor-pointer'>
           <Image
             src={exit}
             className='w-full h-full object-contain'
             alt='exit'
           />
-        </button>
+        </Link>
       </div>
     </header>
   )

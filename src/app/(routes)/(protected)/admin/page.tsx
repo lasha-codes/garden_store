@@ -3,7 +3,7 @@ import NewProducts from './_components/new_products'
 
 const AdminPage = () => {
   return (
-    <main className='w-full flex flex-col items-start gap-10'>
+    <main className='w-full flex flex-col min-h-screen items-start gap-10'>
       <Analytics />
       <NewProducts />
     </main>

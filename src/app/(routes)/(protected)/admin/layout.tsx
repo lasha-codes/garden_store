@@ -8,6 +8,7 @@ import Sidebar from './_components/sidebar'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/lib/store'
 import { retrieveUsers } from '@/lib/slices/users'
+import { retrievePayments } from '@/lib/slices/payments'
 
 const AdminLayout = ({ children }: { children: Readonly<React.ReactNode> }) => {
   const dispatch = useDispatch<AppDispatch>()
@@ -25,6 +26,7 @@ const AdminLayout = ({ children }: { children: Readonly<React.ReactNode> }) => {
 
   useEffect(() => {
     dispatch(retrieveUsers())
+    dispatch(retrievePayments() as any)
   }, [])
 
   return (

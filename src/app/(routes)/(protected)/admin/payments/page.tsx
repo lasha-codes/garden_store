@@ -1,45 +1,30 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { retrievePayments } from '../_utils/utils'
-import { StripePayment } from '@/types/globalTypes'
 import PaymentCard from '../_components/payment_card'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState, AppDispatch } from '@/lib/store'
+import { assignPayments } from '@/lib/slices/payments'
 
 const Payments = () => {
-  const [payments, setPayments] = useState<StripePayment[]>([])
-  const [unpaidPayments, setUnpaidPayments] = useState<StripePayment[]>([])
-  const [paidPayments, setPaidPayments] = useState<StripePayment[]>([])
+  const dispatch = useDispatch<AppDispatch>()
+  const { payments, paidPayments, unpaidPayments } = useSelector(
+    (state: RootState) => state.payments
+  )
   const [paidSelected, setPaidSelected] = useState<string[]>([
     'გადახდილი',
     'გადაუხდელი',
   ])
 
   useEffect(() => {
-    retrievePayments().then((paymentIntents) => {
-      setPayments(paymentIntents)
-      const filterUnpaid = paymentIntents.filter((payment: StripePayment) => {
-        return payment.metadata?.status === 'pending🕒'
-      })
-      const filterPaid = paymentIntents.filter((payment: StripePayment) => {
-        return (
-          payment.metadata?.status === 'complete✅' ||
-          payment.status === 'succeeded'
-        )
-      })
-      setUnpaidPayments(filterUnpaid)
-      setPaidPayments(filterPaid)
-    })
-  }, [])
-
-  useEffect(() => {
     if (
       paidSelected.includes('გადახდილი') &&
       paidSelected.includes('გადაუხდელი')
     ) {
-      setPayments([...unpaidPayments, ...paidPayments])
+      dispatch(assignPayments([...unpaidPayments, ...paidPayments]))
     } else if (paidSelected.includes('გადახდილი')) {
-      setPayments([...paidPayments])
+      dispatch(assignPayments([...paidPayments]))
     } else {
-      setPayments([...unpaidPayments])
+      dispatch(assignPayments([...unpaidPayments]))
     }
     console.log(unpaidPayments, paidPayments)
   }, [paidSelected])
