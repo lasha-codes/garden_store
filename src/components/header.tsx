@@ -11,7 +11,7 @@ import { selectCartTotals, toggleCart } from '@/lib/slices/products'
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 
 const Header = () => {
-  const pathname = usePathname()
+  const pathname: any = usePathname()
   const dispatch = useDispatch<AppDispatch>()
   const { language, menuOpen } = useSelector((state: RootState) => state.global)
   const { totalCount } = useSelector(selectCartTotals)
@@ -86,18 +86,21 @@ const Header = () => {
             </div>
           </button>
           <div className='flex items-center gap-4 max-md:hidden'>
-            <IoSearchOutline className='text-xl cursor-pointer' />
-            <button
-              onClick={() => dispatch(toggleCart(true))}
-              className='text-lg cursor-pointer relative'
-            >
-              <FiShoppingBag />
-              {totalCount > 0 && (
-                <div className='absolute bg-main text-[9px] flex items-center -top-1 -right-1 justify-center text-white font-notoSans w-[15px] h-[15px] rounded-full'>
-                  <span>{totalCount}</span>
-                </div>
+            {!pathname.includes('/pending_payments') &&
+              !pathname.includes('/order_complete') &&
+              !pathname.includes('/checkout') && (
+                <button
+                  onClick={() => dispatch(toggleCart(true))}
+                  className='text-lg cursor-pointer relative'
+                >
+                  <FiShoppingBag />
+                  {totalCount > 0 && (
+                    <div className='absolute bg-main text-[9px] flex items-center -top-1 -right-1 justify-center text-white font-notoSans w-[15px] h-[15px] rounded-full'>
+                      <span>{totalCount}</span>
+                    </div>
+                  )}
+                </button>
               )}
-            </button>
             <SignedOut>
               <Link href='/sign-in'>
                 <FiUser className='text-xl' />
@@ -169,18 +172,21 @@ const Header = () => {
               )
             })}
             <div className='flex items-center gap-4 md:hidden mt-5'>
-              <IoSearchOutline className='text-xl' />
-              <button
-                onClick={() => dispatch(toggleCart(true))}
-                className='text-lg cursor-pointer relative'
-              >
-                <FiShoppingBag />
-                {totalCount > 0 && (
-                  <div className='absolute bg-main text-[9px] flex items-center -top-1 -right-1 justify-center text-white font-notoSans w-[15px] h-[15px] rounded-full'>
-                    <span>{totalCount}</span>
-                  </div>
+              {!pathname.includes('/pending_payments') &&
+                !pathname.includes('/order_complete') &&
+                !pathname.includes('/checkout') && (
+                  <button
+                    onClick={() => dispatch(toggleCart(true))}
+                    className='text-lg cursor-pointer relative'
+                  >
+                    <FiShoppingBag />
+                    {totalCount > 0 && (
+                      <div className='absolute bg-main text-[9px] flex items-center -top-1 -right-1 justify-center text-white font-notoSans w-[15px] h-[15px] rounded-full'>
+                        <span>{totalCount}</span>
+                      </div>
+                    )}
+                  </button>
                 )}
-              </button>
               <SignedOut>
                 <Link href='/sign-in'>
                   <FiUser className='text-xl' />
