@@ -1,10 +1,13 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { retrievePayments } from '../_utils/utils'
-import { PaymentIntent } from '@stripe/stripe-js'
+import { StripePayment } from '@/types/globalTypes'
+import PaymentCard from '../_components/payment_card'
 
 const Payments = () => {
-  const [payments, setPayments] = useState<PaymentIntent[]>([])
+  const [payments, setPayments] = useState<StripePayment[]>([])
+  const [unpaidPayments, setUnpaidPayments] = useState<StripePayment[]>([])
+  const [paidPayments, setPaidPayments] = useState<StripePayment[]>([])
   const [paidSelected, setPaidSelected] = useState<string[]>([
     'გადახდილი',
     'გადაუხდელი',
@@ -13,10 +16,33 @@ const Payments = () => {
   useEffect(() => {
     retrievePayments().then((paymentIntents) => {
       setPayments(paymentIntents)
+      const filterUnpaid = paymentIntents.filter((payment: StripePayment) => {
+        return payment.metadata?.status === 'pending🕒'
+      })
+      const filterPaid = paymentIntents.filter((payment: StripePayment) => {
+        return (
+          payment.metadata?.status === 'complete✅' ||
+          payment.status === 'succeeded'
+        )
+      })
+      setUnpaidPayments(filterUnpaid)
+      setPaidPayments(filterPaid)
     })
   }, [])
 
-  console.log(payments)
+  useEffect(() => {
+    if (
+      paidSelected.includes('გადახდილი') &&
+      paidSelected.includes('გადაუხდელი')
+    ) {
+      setPayments([...unpaidPayments, ...paidPayments])
+    } else if (paidSelected.includes('გადახდილი')) {
+      setPayments([...paidPayments])
+    } else {
+      setPayments([...unpaidPayments])
+    }
+    console.log(unpaidPayments, paidPayments)
+  }, [paidSelected])
 
   return (
     <main className='w-full flex flex-col items-start gap-5'>
@@ -60,6 +86,17 @@ const Payments = () => {
             გადაუხდელი
           </button>
         </div>
+      </div>
+      <div className='bg-[#111111] rounded-[10px] p-5 flex flex-col items-start gap-3 w-full h-[80vh] overflow-auto'>
+        {payments.map((payment, idx) => {
+          return (
+            <PaymentCard
+              paymentId={payment.id}
+              status={payment.metadata?.status || payment.status}
+              key={idx}
+            />
+          )
+        })}
       </div>
     </main>
   )

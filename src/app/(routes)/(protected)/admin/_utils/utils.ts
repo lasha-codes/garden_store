@@ -82,7 +82,7 @@ export const removeProductById = async (
 export const retrievePayments = async () => {
   try {
     const { data } = await axios.get('/stripe/retrieve/payments')
-    return data.payments
+    return data.payments.data
   } catch (err) {
     console.error('error retrieving payments:', err)
   }
