@@ -1,11 +1,17 @@
+'use client'
+
 import { Product } from '@/types/globalTypes'
 import Image from 'next/image'
 import { trimText } from '@/utils/utils'
 import { months } from '../_data/data'
 import { TbCurrencyLari } from 'react-icons/tb'
 import Link from 'next/link'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '@/lib/store'
+import { removeProductById } from '../_utils/utils'
 
 const ProductCard = ({ product }: { product: Product }) => {
+  const dispatch = useDispatch<AppDispatch>()
   const formatDate = (createdAt: number) => {
     const date = new Date(createdAt)
     const year = date.getFullYear()
@@ -64,15 +70,26 @@ const ProductCard = ({ product }: { product: Product }) => {
           </div>
         </div>
       </div>
-      <Link
-        href={`/admin/products/update/${product.id}`}
-        className='flex items-center gap-3 py-3 px-5 rounded-[10px] bg-main/30'
-      >
-        <div className='bg-main h-[10px] w-[10px] rounded-full' />
-        <span className='text-[15px] text-main translate-y-[1px]'>
-          რედაქტირება
-        </span>
-      </Link>
+      <div className='flex items-center gap-2'>
+        <Link
+          href={`/admin/products/update/${product.id}`}
+          className='flex items-center gap-3 py-3 px-5 rounded-[10px] bg-main/30'
+        >
+          <div className='bg-main h-[10px] w-[10px] rounded-full' />
+          <span className='text-[15px] text-main translate-y-[1px]'>
+            რედაქტირება
+          </span>
+        </Link>
+        <button
+          onClick={() => removeProductById(product.id as string, dispatch)}
+          className='flex items-center gap-3 py-3 px-5 rounded-[10px] bg-red-600/40'
+        >
+          <div className='bg-red-600 h-[10px] w-[10px] rounded-full' />
+          <span className='text-[15px] text-red-600 translate-y-[1px]'>
+            წაშლა
+          </span>
+        </button>
+      </div>
     </div>
   )
 }

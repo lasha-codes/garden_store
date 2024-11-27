@@ -132,6 +132,13 @@ const productsSlice = createSlice({
       localStorage.setItem('cart', '[]')
       toast.success('კალათა გასუფთავებულია.')
     },
+    removeProduct: (state, { payload }) => {
+      const { removeId } = payload
+      state.products = state.products.filter((prod) => {
+        return prod.id !== removeId
+      })
+      toast.success('პროდუქტი წაიშალა')
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -197,4 +204,5 @@ export const {
   removeFromCart,
   assignCart,
   clearCart,
+  removeProduct,
 } = productsSlice.actions

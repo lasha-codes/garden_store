@@ -1,3 +1,5 @@
+import { removeProduct } from '@/lib/slices/products'
+import { AppDispatch } from '@/lib/store'
 import { Product } from '@/types/globalTypes'
 import axios from 'axios'
 import { toast } from 'sonner'
@@ -61,4 +63,18 @@ export const uploadFile = (
     .catch((err) => {
       console.log(err.message)
     })
+}
+
+export const removeProductById = async (
+  removeId: string,
+  dispatch: AppDispatch
+) => {
+  try {
+    const { data } = await axios.delete(`/products/delete/${removeId}`)
+    if (data.deletedProduct) {
+      dispatch(removeProduct({ removeId: removeId }))
+    }
+  } catch (err) {
+    console.error('error removing product:', err)
+  }
 }
