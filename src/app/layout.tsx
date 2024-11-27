@@ -1,10 +1,11 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import Header from '@/components/header'
+const Cart = dynamic(() => import('@/components/cart'))
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import axios from 'axios'
-import Cart from '@/components/cart'
 import ContextProvider from './context'
 import { Toaster } from 'sonner'
 import { ClerkProvider } from '@clerk/nextjs'
@@ -22,9 +23,9 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <ServerWrapper>
-      <html lang='en'>
-        <body>
+    <html lang='en'>
+      <ServerWrapper>
+        <body suppressHydrationWarning>
           <ClientWrapper>
             <Provider store={store}>
               <ContextProvider>
@@ -42,7 +43,7 @@ export default function RootLayout({
             </Provider>
           </ClientWrapper>
         </body>
-      </html>
-    </ServerWrapper>
+      </ServerWrapper>
+    </html>
   )
 }

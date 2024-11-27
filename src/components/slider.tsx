@@ -3,17 +3,31 @@
 import Image from 'next/image'
 import { Navigation, Autoplay, EffectCoverflow } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { useSelector } from 'react-redux'
-import { RootState } from '@/lib/store'
 
 import 'swiper/css'
 import 'swiper/css/navigation'
 import './slider.css'
+import { getSlider } from '@/utils/cached'
+import { useState, useEffect, cache } from 'react'
 
 const Slider = () => {
-  const { slider } = useSelector((state: RootState) => state.products)
+  const [slider, setSlider] = useState<
+    {
+      product: {
+        images: string[]
+      }
+    }[]
+  >([])
+  useEffect(() => {
+    const fetchSlider = cache(async () => {
+      const data = await getSlider()
+      setSlider(data)
+    })
+    fetchSlider()
+  }, [])
+
   return (
-    <div className='w-[550px] max-lg:w-full'>
+    <div className={`w-[550px] max-lg:w-full`}>
       <Swiper
         modules={[Navigation, Autoplay, EffectCoverflow]}
         effect='coverflow'
@@ -27,6 +41,7 @@ const Slider = () => {
         navigation={true}
         spaceBetween={10}
         slidesPerView={1}
+        className={``}
       >
         {slider.map((data, idx) => {
           return (
