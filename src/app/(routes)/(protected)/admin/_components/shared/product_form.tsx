@@ -50,7 +50,7 @@ const Form = ({ type }: FormProps) => {
           setQty(product.qty)
           setPrice(product.price.toString())
           setPdf(product.PDF || '')
-          setYoutubeLink(product?.youtubeURL || '')
+          setYoutubeLink(product?.youtubeUrl || '')
         } else {
           router.replace('/admin/products')
         }
@@ -76,7 +76,7 @@ const Form = ({ type }: FormProps) => {
           product.PDF = pdf
         }
         if (youtubeLink) {
-          product.youtubeURL = youtubeLink
+          product.youtubeUrl = youtubeLink
         }
         if (color) {
           product.color = color

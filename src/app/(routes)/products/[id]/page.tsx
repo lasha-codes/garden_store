@@ -16,6 +16,7 @@ import { SwiperRef } from 'swiper/react'
 import SlideImage from './_components/slideImage'
 import Purchase from './_components/purchase'
 import { toggleCart } from '@/lib/slices/products'
+import ReactPlayer from 'react-player'
 
 const Product = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -97,6 +98,20 @@ const Product = () => {
               )
             })}
           </div>
+          {product?.youtubeUrl && (
+            <>
+              <div className='hidden lg:block'>
+                <ReactPlayer url={product.youtubeUrl} />
+              </div>
+              <div className='block lg:hidden'>
+                <ReactPlayer
+                  url={product.youtubeUrl}
+                  width={400}
+                  height={250}
+                />
+              </div>
+            </>
+          )}
         </div>
         <div className='flex items-start w-full justify-between gap-7 max-xl:flex-col'>
           <div className='flex flex-col items-start w-full justify-start'>

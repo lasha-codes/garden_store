@@ -10,6 +10,9 @@ import { addToCart, toggleCart } from '@/lib/slices/products'
 import { AppDispatch, RootState } from '@/lib/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { retrieveCartData } from '@/lib/slices/products'
+import Link from 'next/link'
+import { FaRegFilePdf } from 'react-icons/fa'
+
 const Purchase = ({
   product,
   language,
@@ -124,13 +127,17 @@ const Purchase = ({
             )}
           </button>
         </div>
-        <button className='flex items-center gap-3 w-full bg-[#6472FE] px-3 h-[45px] text-white rounded-[6px] hover:bg-[#6472FE]/90 transition-all duration-200 ease-linear'>
-          <FaCcStripe className='text-3xl' />
-          <div className='h-[20px] w-[1px] bg-white' />
-          <span className='text-sm'>
-            {language === 'geo' ? 'შეძენა' : 'Purchase'}
-          </span>
-        </button>
+        {product?.PDF && (
+          <Link
+            href={product.PDF}
+            target='_blank'
+            className='w-full bg-[#DE231B] hover:bg-[#DE231B]/80 transition-all duration-200 ease-linear flex items-center gap-3 py-2.5 font-semibold text-white px-5'
+          >
+            <FaRegFilePdf className='text-xl' />
+            <div className='h-[20px] w-[2px] bg-white' />
+            <span className='text-sm'>ინსტრუქცია</span>
+          </Link>
+        )}
       </div>
     </div>
   )

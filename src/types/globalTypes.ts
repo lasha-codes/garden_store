@@ -3,7 +3,7 @@ import { PaymentIntent } from '@stripe/stripe-js'
 export type Product = {
   id?: string
   PDF?: string | null
-  youtubeURL?: string | null
+  youtubeUrl?: string | null
   images: string[]
   geo_title: string
   eng_title: string
