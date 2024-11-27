@@ -42,6 +42,7 @@ const Slider = () => {
             </SwiperSlide>
           )
         })}
+        {slider.length === 0 && <div className='w-full h-[500px]'></div>}
       </Swiper>
     </div>
   )

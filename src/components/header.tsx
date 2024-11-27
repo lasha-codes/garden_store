@@ -1,3 +1,4 @@
+'use client'
 import Link from 'next/link'
 import { navigation } from '@/app/data/data'
 import { IoSearchOutline } from 'react-icons/io5'
