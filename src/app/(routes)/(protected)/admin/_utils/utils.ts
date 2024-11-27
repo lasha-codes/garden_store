@@ -78,3 +78,12 @@ export const removeProductById = async (
     console.error('error removing product:', err)
   }
 }
+
+export const retrievePayments = async () => {
+  try {
+    const { data } = await axios.get('/stripe/retrieve/payments')
+    return data.payments
+  } catch (err) {
+    console.error('error retrieving payments:', err)
+  }
+}

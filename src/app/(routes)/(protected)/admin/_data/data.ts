@@ -1,5 +1,6 @@
 import { GrHomeRounded } from 'react-icons/gr'
 import { CiGrid41 } from 'react-icons/ci'
+import { TbTicket } from 'react-icons/tb'
 
 export const navigation = [
   {
@@ -12,6 +13,11 @@ export const navigation = [
     icon: CiGrid41,
     name: 'პროდუქცია',
     href: '/admin/products',
+  },
+  {
+    icon: TbTicket,
+    name: 'გადახდები',
+    href: '/admin/payments',
   },
 ]
 
