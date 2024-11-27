@@ -1,7 +1,6 @@
 'use client'
 import Link from 'next/link'
 import { navigation } from '@/app/data/data'
-import { IoSearchOutline } from 'react-icons/io5'
 import { FiShoppingBag, FiUser } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/lib/store'
@@ -9,12 +8,18 @@ import { toggleLanguage, toggleMenu } from '@/lib/slices/global_slice'
 import { usePathname } from 'next/navigation'
 import { selectCartTotals, toggleCart } from '@/lib/slices/products'
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+import { useEffect, useState } from 'react'
 
 const Header = () => {
   const pathname: any = usePathname()
   const dispatch = useDispatch<AppDispatch>()
   const { language, menuOpen } = useSelector((state: RootState) => state.global)
   const { totalCount } = useSelector(selectCartTotals)
+  const [isClient, setIsClient] = useState<boolean>(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   if (!pathname.toLowerCase().includes('/admin')) {
     return (
@@ -101,14 +106,18 @@ const Header = () => {
                   )}
                 </button>
               )}
-            <SignedOut>
-              <Link href='/sign-in'>
-                <FiUser className='text-xl' />
-              </Link>
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
+            {isClient && (
+              <>
+                <SignedOut>
+                  <Link suppressHydrationWarning href='/sign-in'>
+                    <FiUser suppressHydrationWarning className='text-xl' />
+                  </Link>
+                </SignedOut>
+                <SignedIn>
+                  <UserButton />
+                </SignedIn>
+              </>
+            )}
           </div>
         </div>
         <div className='relative hidden max-lg:block'>
@@ -187,14 +196,18 @@ const Header = () => {
                     )}
                   </button>
                 )}
-              <SignedOut>
-                <Link href='/sign-in'>
-                  <FiUser className='text-xl' />
-                </Link>
-              </SignedOut>
-              <SignedIn>
-                <UserButton />
-              </SignedIn>
+              {isClient && (
+                <>
+                  <SignedOut>
+                    <Link href='/sign-in'>
+                      <FiUser className='text-xl' />
+                    </Link>
+                  </SignedOut>
+                  <SignedIn>
+                    <UserButton />
+                  </SignedIn>
+                </>
+              )}
             </div>
           </nav>
         </div>

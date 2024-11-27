@@ -145,7 +145,7 @@ const OrderComplete = () => {
               href='/'
               className='w-full py-3 bg-main hover:bg-main/90 transition-all duration-200 ease-linear text-white flex items-center justify-center'
             >
-              <span>მთავარ გვერძე</span>
+              <span>მთავარი გვერდი</span>
             </Link>
             <p className='uppercase text-[15px] text-main'>
               transaction was successful.

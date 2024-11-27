@@ -119,7 +119,7 @@ const PendingPayment = () => {
               href='/'
               className='bg-main w-full py-3 text-center hover:bg-main/90 transition-all duration-200 ease-linear text-white font-notoSans mt-3'
             >
-              მთავარ გვერძე
+              მთავარი გვერდი
             </Link>
           </div>
         </div>

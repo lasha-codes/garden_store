@@ -2,6 +2,7 @@ import { categories } from '@/app/data/data'
 import Image from 'next/image'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/lib/store'
+import Link from 'next/link'
 
 const Categories = () => {
   const { language } = useSelector((state: RootState) => state.global)
@@ -40,9 +41,12 @@ const Categories = () => {
                   ? category.geo_description
                   : category.eng_description}
               </p>
-              <button className='text-[15px] max-md:text-sm text-[#156d15] border-b font-medium border-[#156d15] pb-[1px] font-poppins'>
+              <Link
+                href='/products'
+                className='text-[15px] max-md:text-sm text-[#156d15] border-b font-medium border-[#156d15] pb-[1px] font-poppins'
+              >
                 SHOP NOW
-              </button>
+              </Link>
             </div>
           </div>
         )

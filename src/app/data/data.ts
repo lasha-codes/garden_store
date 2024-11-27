@@ -56,8 +56,8 @@ interface mainDataType {
 export const mainData: mainDataType = {
   eng_line: 'Interior Gardening',
   geo_line: 'ინტერიორის მცენარეები',
-  eng_title: 'THE SHOP FOR THE URBAN GARDENS',
-  geo_title: 'მაღაზია ბაღის მცენარეებისთვის',
+  eng_title: '',
+  geo_title: 'ბაღის ხელსაწყოები',
   eng_description:
     'There are many violations of passages of Lorem ipsum available. but the majority have suffered alteration',
   geo_description: 'ქართული აღწერა რომელიც შეიცვლება გვერდის შესაბამისად',
@@ -68,9 +68,9 @@ export const mainData: mainDataType = {
       path: '/products',
     },
     {
-      eng_title: 'Learn More',
-      geo_title: 'გაიგეთ მეტი',
-      path: '/news',
+      eng_title: 'About us',
+      geo_title: 'შესახებ',
+      path: '/about',
     },
   ],
 }
@@ -102,22 +102,22 @@ export const categories = [
   {
     geo_title: 'ხშირად გამოყენებადი',
     eng_title: 'Most Used',
-    geo_description: 'ძირითადი ხელსაწყოები',
-    eng_description: 'Essential Tools',
+    geo_description: 'ტელესკოპური სეკატორი',
+    eng_description: 'Telescopic blade',
     image: most_used_tools,
   },
   {
     geo_title: 'მაღალი ხარისხი',
     eng_title: 'Premium Quality',
-    geo_description: 'სახლის ხელსაწყოები',
-    eng_description: 'Home Tools',
+    geo_description: 'ელექტრო ხერხი',
+    eng_description: 'Electric saw',
     image: premium_quality,
   },
   {
     geo_title: 'მოსახერხებელი',
     eng_title: 'User-Friendly',
-    geo_description: 'ბაღისთვის ხელსაწყოები',
-    eng_description: 'Tools for Gardening',
+    geo_description: 'ელექრო მაკრატელი',
+    eng_description: 'Electric scissor',
     image: user_friendly,
   },
 ]
