@@ -11,7 +11,11 @@ export default function ClientWrapper({
   const isAdminPath = pathname.toLowerCase().includes('/admin')
 
   return (
-    <div className={`py-6 px-12 relative ${isAdminPath && '!p-0'}`}>
+    <div
+      className={`py-6 px-12 relative ${isAdminPath && '!p-0'} ${
+        pathname === '/' && '!pb-0'
+      }`}
+    >
       {children}
     </div>
   )

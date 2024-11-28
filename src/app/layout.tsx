@@ -3,6 +3,7 @@
 import dynamic from 'next/dynamic'
 import Header from '@/components/header'
 const Cart = dynamic(() => import('@/components/cart'))
+const Footer = dynamic(() => import('@/components/footer'))
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import axios from 'axios'
@@ -32,6 +33,7 @@ export default function RootLayout({
                 <ClerkProvider>
                   <Header />
                   {children}
+                  <Footer />
                   <Cart />
                 </ClerkProvider>
                 <Toaster
