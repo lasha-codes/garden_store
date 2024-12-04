@@ -4,9 +4,12 @@ import { useState, useEffect } from 'react'
 import Input from './form_input'
 import Textarea from './form_textarea'
 import { useParams, useRouter } from 'next/navigation'
-import { getProductById, updateProduct } from '../../_utils/utils'
+import {
+  getProductById,
+  updateProduct,
+  uploadProduct,
+} from '@/services/products/index'
 import { Product } from '@/types/globalTypes'
-import { uploadProduct } from '../../_utils/utils'
 
 type FormProps = {
   type: 'update' | 'add'

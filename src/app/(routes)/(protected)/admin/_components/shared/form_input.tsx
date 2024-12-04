@@ -1,6 +1,6 @@
 import { FaYoutube } from 'react-icons/fa'
 import { TbCurrencyLari } from 'react-icons/tb'
-import { uploadFile } from '../../_utils/utils'
+import { uploadFile } from '@/services/products'
 import Image from 'next/image'
 import { IoIosClose } from 'react-icons/io'
 
