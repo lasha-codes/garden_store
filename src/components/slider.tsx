@@ -7,7 +7,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import './slider.css'
-import { getSlider } from '@/utils/cached'
+import { getSlider } from '@/services/products'
 import { useState, useEffect, cache } from 'react'
 
 const Slider = () => {

@@ -1,5 +1,5 @@
 import { Product } from '@/types/globalTypes'
-import { fetchProductsSEO } from '@/utils/utils'
+import { fetchProductsSEO } from '@/services/products'
 
 export default async function sitemap() {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL

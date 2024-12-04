@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import ContactInput from './input'
-import { contactViaEmail } from '../../utils/email'
+import { contactViaEmail } from '@/services/email'
 
 const ContactForm = () => {
   const [fullName, setFullName] = useState<string>('')

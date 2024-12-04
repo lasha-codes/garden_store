@@ -3,13 +3,13 @@
 import { PaymentIntent } from '@stripe/stripe-js'
 import { useSearchParams } from 'next/navigation'
 import { useState, useEffect } from 'react'
-import { retrievePaymentIntent } from '../utils/stripe'
 import { IoIosClose } from 'react-icons/io'
 import { TbCurrencyLari } from 'react-icons/tb'
 import Link from 'next/link'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/lib/store'
-import { finishPurchase } from '../utils/products'
+import { retrievePaymentIntent } from '@/services/stripe'
+import { finishPurchase } from '@/services/products'
 
 type intentProduct = {
   name: string

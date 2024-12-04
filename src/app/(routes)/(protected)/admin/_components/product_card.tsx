@@ -8,7 +8,7 @@ import { TbCurrencyLari } from 'react-icons/tb'
 import Link from 'next/link'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/lib/store'
-import { removeProductById } from '../_utils/utils'
+import { removeProductById } from '@/services/products'
 
 const ProductCard = ({ product }: { product: Product }) => {
   const dispatch = useDispatch<AppDispatch>()

@@ -10,7 +10,7 @@ import { toggleCart } from '@/lib/slices/products'
 import { MdDeliveryDining } from 'react-icons/md'
 import Link from 'next/link'
 import { AppDispatch, RootState } from '@/lib/store'
-import { finishPurchase } from '../utils/products'
+import { finishPurchase } from '@/services/products'
 
 const OrderComplete = () => {
   const dispatch = useDispatch<AppDispatch>()

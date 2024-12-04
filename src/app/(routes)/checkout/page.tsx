@@ -16,7 +16,7 @@ import { loadStripe } from '@stripe/stripe-js'
 import axios from 'axios'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
-import { validateCheckoutRoute } from '../utils/products'
+import { validateCheckoutRoute } from '@/services/products'
 
 const Checkout = () => {
   const router = useRouter()

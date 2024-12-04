@@ -1,7 +1,10 @@
-import { removeProduct } from '@/lib/slices/products'
+import axios from 'axios'
+import { cache } from 'react'
 import { AppDispatch } from '@/lib/store'
 import { Product } from '@/types/globalTypes'
-import axios from 'axios'
+import { initializeCart } from '@/lib/slices/products'
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
+import { removeProduct } from '@/lib/slices/products'
 import { toast } from 'sonner'
 
 export const getProductById = async (id: string) => {
@@ -76,5 +79,47 @@ export const removeProductById = async (
     }
   } catch (err) {
     console.error('error removing product:', err)
+  }
+}
+
+export const getSlider = cache(async () => {
+  const { data } = await axios.get('/products/slider/get')
+  return data.slider
+})
+
+export const fetchProductsSEO = async (baseUrl: string) => {
+  const response = await axios.get(`${baseUrl}/products/retrieve`)
+
+  return response.data.products
+}
+
+export const finishPurchase = async (
+  cart: Product[],
+  dispatch: AppDispatch
+) => {
+  try {
+    await axios.post('/products/finish/purchase', {
+      cart: cart,
+    })
+    dispatch(initializeCart({ cart: [] }))
+    localStorage.setItem('cart', '[]')
+  } catch (error: any) {
+    console.error(error.message)
+  }
+}
+
+export const validateCheckoutRoute = (
+  router: AppRouterInstance,
+  cartLoading: 'fulfilled' | 'pending' | 'rejected' | 'validated',
+  cart: Product[]
+) => {
+  console.log('Cart Loading:', cartLoading)
+  console.log('Cart Length:', cart.length)
+
+  if (cartLoading === 'pending') return
+  if (cartLoading === 'rejected') {
+    router.replace('/')
+  } else if (cartLoading === 'validated' && cart.length === 0) {
+    router.replace('/')
   }
 }
