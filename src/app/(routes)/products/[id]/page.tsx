@@ -74,7 +74,7 @@ const Product = () => {
         />
       </Head>
       <main
-        className={`w-full flex flex-col items-start mt-16 gap-6 ${
+        className={`w-full flex flex-col min-h-screen items-start mt-16 gap-6 ${
           language == 'geo' ? 'font-notoSans' : 'font-poppins'
         }`}
       >

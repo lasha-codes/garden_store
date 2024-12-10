@@ -11,7 +11,7 @@ const Products = () => {
   )
 
   return (
-    <main className='w-full mt-16'>
+    <main className='w-full mt-16 min-h-screen'>
       <div
         onClick={() => dispatch(toggleCart(false))}
         className={`fixed w-screen h-screen top-0 left-0 z-[500] bg-black/50 transition-all duration-200 ease-linear ${

@@ -7,7 +7,7 @@ export default async function sitemap() {
   try {
     const response = await fetchProductsSEO(baseUrl as string)
 
-    const products = Array.isArray(response)
+    const products = response
       ? response.map((product: Product) => ({
           url: `${baseUrl}/products/${product.id}`,
           lastModified: new Date(product.createdAt as number).toISOString(),
