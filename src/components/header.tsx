@@ -26,7 +26,7 @@ const Header = () => {
       <header className='w-full h-full flex items-center justify-between'>
         <Link href='/' className=''>
           <h1 className='text-main font-poppins font-medium text-2xl'>
-            Ingarden
+            {process.env.NEXT_PUBLIC_TITLE}
           </h1>
         </Link>
         <nav
@@ -41,7 +41,7 @@ const Header = () => {
                 href={link.path}
                 className={`${
                   pathname === link.path && 'text-main'
-                } hover:text-main transition-all duration-200 ease-linear`}
+                } hover:text-main font-semibold transition-all duration-200 ease-linear`}
               >
                 <span
                   className={`transition-all duration-300 ease-linear ${

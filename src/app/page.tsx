@@ -16,7 +16,10 @@ const Home = () => {
   const { cartOpen } = useSelector((state: RootState) => state.products)
 
   return (
-    <main className='w-full mt-20 max-md:mt-16 flex flex-col gap-16 relative'>
+    <main className='w-full mt-20 max-md:mt-16 flex flex-col items-center gap-16 relative'>
+      <p className='text-2xl font-bold font-notoSans'>
+        იაპონური წარმოების კომპანია "Musashi" უმაღლესი ხარისხის ინსტრუმენტები.
+      </p>
       <div
         onClick={() => dispatch(toggleCart(false))}
         className={`fixed w-screen h-screen top-0 left-0 z-[500] bg-black/50 transition-all duration-200 ease-linear ${
@@ -69,6 +72,7 @@ const Home = () => {
             })}
           </div>
         </div>
+
         <Slider />
       </section>
       <Categories />
