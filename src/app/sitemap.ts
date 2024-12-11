@@ -2,7 +2,7 @@ import { Product } from '@/types/globalTypes'
 import { fetchProductsSEO } from '@/services/products'
 
 export default async function sitemap() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+  const baseUrl = process.env.NEXT_PUBLIC_API_ENDPOINT
 
   try {
     const response = await fetchProductsSEO(baseUrl as string)

@@ -17,6 +17,7 @@ import axios from 'axios'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { validateCheckoutRoute } from '@/services/products'
+import { processPayment } from '@/services/banks/tbc'
 
 const Checkout = () => {
   const router = useRouter()
@@ -32,7 +33,7 @@ const Checkout = () => {
   const [paymentType, setPaymentType] = useState<
     | 'საბანკო გადარიცხვა'
     | 'გადახდა ნაღდი ფულით შეკვეთის მიღებისას'
-    | 'თიბისი ბანკის ონლაინ განვადება'
+    | 'თიბისი ბანკის ონლაინ გადახდა'
     | 'ონლაინ გადახდა'
   >('საბანკო გადარიცხვა')
   const [name, setName] = useState<string>('')
@@ -149,16 +150,20 @@ const Checkout = () => {
       }
       if (
         paymentType !== 'საბანკო გადარიცხვა' &&
-        paymentType !== 'თიბისი ბანკის ონლაინ განვადება'
+        paymentType !== 'თიბისი ბანკის ონლაინ გადახდა'
       ) {
         // @ts-ignore
         metadata.shipping_cost = deliveryPrice
       }
 
-      const { data } = await axios.post('/stripe/create/pending/intent', {
-        products: retrievedCart,
-        metadata: metadata,
-      })
+      await processPayment(
+        retrievedCart.map((product) => ({
+          price: product.price,
+          qty: product.qty,
+          geo_title: product.geo_title,
+        })),
+        metadata
+      )
 
       setName('')
       setLastName('')
@@ -170,9 +175,6 @@ const Checkout = () => {
       setOrderNotes('')
 
       setPaymentLoading(false)
-      if (data.paymentIntentId) {
-        router.replace(`/pending_payment?paymentIntent=${data.paymentIntentId}`)
-      }
     } catch (err: any) {
       console.error('Error creating pending payment:', err.message)
     }
@@ -521,24 +523,24 @@ const Checkout = () => {
             </span>
           </button>
           <button
-            onClick={() => setPaymentType('თიბისი ბანკის ონლაინ განვადება')}
+            onClick={() => setPaymentType('თიბისი ბანკის ონლაინ გადახდა')}
             className='flex items-center gap-2'
           >
             <div
               className={`w-[13px] h-[13px] rounded-full p-[2px] border border-[#616161] flex items-center justify-center ${
-                paymentType === 'თიბისი ბანკის ონლაინ განვადება' &&
+                paymentType === 'თიბისი ბანკის ონლაინ გადახდა' &&
                 '!border-[#005CC8]'
               }`}
             >
               <div
                 className={`w-full h-full rounded-full transition-all ease-linear ${
-                  paymentType === 'თიბისი ბანკის ონლაინ განვადება' &&
+                  paymentType === 'თიბისი ბანკის ონლაინ გადახდა' &&
                   'bg-[#005CC8]'
                 }`}
               ></div>
             </div>
             <span className='text-sm translate-y-[1px]'>
-              თიბისი ბანკის ონლაინ განვადება
+              თიბისი ბანკის ონლაინ გადახდა
             </span>
             <Image src={tbc_logo} width={110} height={110} alt='tbc_logo' />
           </button>

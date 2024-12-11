@@ -9,6 +9,7 @@ const Slider = dynamic(() => import('@/components/slider'), {})
 const Categories = dynamic(() => import('@/components/categories'), {})
 import { useDispatch } from 'react-redux'
 import { toggleCart } from '@/lib/slices/products'
+import { GoArrowDown } from 'react-icons/go'
 
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -17,9 +18,22 @@ const Home = () => {
 
   return (
     <main className='w-full mt-20 max-md:mt-16 flex flex-col items-center gap-16 relative'>
-      <p className='text-2xl font-bold font-notoSans'>
-        იაპონური წარმოების კომპანია "Musashi" უმაღლესი ხარისხის ინსტრუმენტები.
-      </p>
+      <div className='w-full flex flex-col items-center gap-5 relative'>
+        <p className='text-[19px] font-bold font-notoSans text-main text-center'>
+          იაპონური წარმოების კომპანია "Musashi" უმაღლესი ხარისხის ინსტრუმენტები.
+        </p>
+        <GoArrowDown className='text-2xl' />
+        <div className='absolute z-[10] top-[90px] max-3xl:relative max-3xl:top-0 w-full flex justify-center'>
+          <iframe
+            width='560'
+            height='315'
+            src='https://www.youtube.com/embed/UePtIYOmo18?color=white&theme=light'
+            className='max-md:w-[500px] max-md:h-[276px] max-sm:w-full max-sm:h-[230px] max-[430px]:h-[180px]'
+            allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
+            allowFullScreen
+          ></iframe>
+        </div>
+      </div>
       <div
         onClick={() => dispatch(toggleCart(false))}
         className={`fixed w-screen h-screen top-0 left-0 z-[500] bg-black/50 transition-all duration-200 ease-linear ${

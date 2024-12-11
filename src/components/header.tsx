@@ -41,7 +41,7 @@ const Header = () => {
                 href={link.path}
                 className={`${
                   pathname === link.path && 'text-main'
-                } hover:text-main font-semibold transition-all duration-200 ease-linear`}
+                } hover:text-main transition-all duration-200 ease-linear`}
               >
                 <span
                   className={`transition-all duration-300 ease-linear ${
