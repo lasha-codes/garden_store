@@ -56,7 +56,7 @@ interface mainDataType {
 export const mainData: mainDataType = {
   eng_line: 'Interior Gardening',
   geo_line: 'ინტერიორის მცენარეები',
-  eng_title: '',
+  eng_title: 'Gardening Tools',
   geo_title: 'ბაღის ხელსაწყოები',
   eng_description:
     'There are many violations of passages of Lorem ipsum available. but the majority have suffered alteration',
