@@ -5,10 +5,12 @@ const ProtectAdmin = ({ children }: { children: React.ReactNode }) => {
   const { user, isLoaded } = useUser()
   const role = user?.publicMetadata.role
 
-  if (!user) {
-    return notFound()
-  } else if (!role || role !== 'admin') {
-    return notFound()
+  if (isLoaded) {
+    if (!user) {
+      return notFound()
+    } else if (!role || role !== 'admin') {
+      return notFound()
+    }
   }
 
   if (isLoaded) {

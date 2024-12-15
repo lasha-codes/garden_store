@@ -18,15 +18,15 @@ const AdminLayout = ({ children }: { children: Readonly<React.ReactNode> }) => {
   }, [])
 
   return (
-    <main className='w-full min-h-screen bg-[#1D1D1D] flex items-start font-notoSans'>
-      <Sidebar />
-      <div className='h-full flex flex-col items-center w-full'>
-        <Header />
-        <div className='p-5 w-full h-full'>
-          <ProtectAdmin>{children}</ProtectAdmin>
+    <ProtectAdmin>
+      <main className='w-full min-h-screen bg-[#1D1D1D] flex items-start font-notoSans'>
+        <Sidebar />
+        <div className='h-full flex flex-col items-center w-full'>
+          <Header />
+          <div className='p-5 w-full h-full'>{children}</div>
         </div>
-      </div>
-    </main>
+      </main>
+    </ProtectAdmin>
   )
 }
 

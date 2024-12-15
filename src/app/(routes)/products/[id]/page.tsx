@@ -18,6 +18,7 @@ import Purchase from './_components/purchase'
 import { toggleCart } from '@/lib/slices/products'
 import ReactPlayer from 'react-player'
 import Head from 'next/head'
+import Loader from '@/components/loader'
 
 const Product = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -44,6 +45,10 @@ const Product = () => {
     }
     getProductById()
   }, [params])
+
+  if (!product) {
+    return <Loader title='პროდუქტი იტვირთება' />
+  }
 
   return (
     <>

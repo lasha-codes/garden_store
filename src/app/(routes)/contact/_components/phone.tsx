@@ -1,11 +1,10 @@
 const PhoneSVG = () => {
   return (
     <svg
-      fill='#588535'
       viewBox='0 0 32 32'
       version='1.1'
       xmlns='http://www.w3.org/2000/svg'
-      className='w-[500px]'
+      className='w-[500px] fill-main'
     >
       <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
       <g

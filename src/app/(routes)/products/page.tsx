@@ -4,11 +4,17 @@ import { toggleCart } from '@/lib/slices/products'
 import { AppDispatch, RootState } from '@/lib/store'
 import { useDispatch, useSelector } from 'react-redux'
 import Product from './_components/product'
+import Loader from '@/components/loader'
+
 const Products = () => {
   const dispatch = useDispatch<AppDispatch>()
   const { products, cartOpen } = useSelector(
     (state: RootState) => state.products
   )
+
+  if (products.length === 0) {
+    return <Loader title='პროდუქცია იტვირთება' />
+  }
 
   return (
     <main className='w-full mt-16 min-h-screen'>
