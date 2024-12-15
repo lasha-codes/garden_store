@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { cache } from 'react'
 import { AppDispatch } from '@/lib/store'
 import { Product } from '@/types/globalTypes'
 import { initializeCart } from '@/lib/slices/products'
@@ -82,10 +81,10 @@ export const removeProductById = async (
   }
 }
 
-export const getSlider = cache(async () => {
+export const getSlider = async () => {
   const { data } = await axios.get('/products/slider/get')
   return data.slider
-})
+}
 
 export const fetchProductsSEO = async (baseUrl: string) => {
   const response = await axios.get(`${baseUrl}/products/retrieve`)

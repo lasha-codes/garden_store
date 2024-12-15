@@ -4,12 +4,11 @@ import { mainData } from './data/data'
 import { useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/lib/store'
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
-const Slider = dynamic(() => import('@/components/slider'), {})
-const Categories = dynamic(() => import('@/components/categories'), {})
+import Categories from '@/components/categories'
 import { useDispatch } from 'react-redux'
 import { toggleCart } from '@/lib/slices/products'
 import { GoArrowDown } from 'react-icons/go'
+import Slider from '@/components/slider'
 
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>()

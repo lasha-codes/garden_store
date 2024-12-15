@@ -1,9 +1,8 @@
 'use client'
 
-import dynamic from 'next/dynamic'
 import Header from '@/components/header'
-const Cart = dynamic(() => import('@/components/cart'))
-const Footer = dynamic(() => import('@/components/footer'))
+import Cart from '@/components/cart'
+import Footer from '@/components/footer'
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import axios from 'axios'
