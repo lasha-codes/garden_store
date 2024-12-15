@@ -12,7 +12,7 @@ const config: Config = {
         '3xl': '1730px',
       },
       colors: {
-        main: '#588535',
+        main: '#2e8be8',
       },
       fontFamily: {
         poppins: 'Poppins',

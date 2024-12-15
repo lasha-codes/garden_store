@@ -26,7 +26,7 @@ const Home = () => {
           <iframe
             width='560'
             height='315'
-            src='https://www.youtube.com/embed/UePtIYOmo18?color=white&theme=light'
+            src='https://www.youtube.com/embed/Ix76MZqWdJY'
             className='max-md:w-[500px] max-md:h-[276px] max-sm:w-full max-sm:h-[230px] max-[430px]:h-[180px]'
             allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
             allowFullScreen

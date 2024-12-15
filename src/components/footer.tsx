@@ -8,7 +8,7 @@ import { IoArrowUp } from 'react-icons/io5'
 
 const Footer = () => {
   const pathname = usePathname()
-  const supportEmail = 'lashagiorgi420@gmail.com'
+  const supportEmail = 'gardentools.contact@gmail.com'
   const title = process.env.NEXT_PUBLIC_TITLE
   if (!pathname.includes('/admin')) {
     return (
